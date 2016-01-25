@@ -26,11 +26,13 @@ System.config({
 
   map: {
     "angular2": "npm:angular2@2.0.0-beta.1",
+    "lodash": "npm:lodash@4.0.1",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "rxjs": "npm:rxjs@5.0.0-beta.1",
     "scss": "github:mobilexag/plugin-sass@0.2.0",
     "ts": "github:frankwallis/plugin-typescript@2.5.1",
     "typescript": "npm:typescript@1.7.5",
+    "vexflow": "npm:vexflow@1.2.36",
     "zone.js": "npm:zone.js@0.5.10",
     "github:frankwallis/plugin-typescript@2.5.1": {
       "typescript": "npm:typescript@1.7.5"
@@ -244,6 +246,9 @@ System.config({
     "npm:lodash@3.10.1": {
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
+    "npm:lodash@4.0.1": {
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
     "npm:miller-rabin@4.0.0": {
       "bn.js": "npm:bn.js@4.8.0",
       "brorand": "npm:brorand@1.0.5"
@@ -348,6 +353,11 @@ System.config({
     },
     "npm:util@0.10.3": {
       "inherits": "npm:inherits@2.0.1",
+      "process": "github:jspm/nodelibs-process@0.1.2"
+    },
+    "npm:vexflow@1.2.36": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "path": "github:jspm/nodelibs-path@0.1.0",
       "process": "github:jspm/nodelibs-process@0.1.2"
     },
     "npm:vm-browserify@0.0.4": {

@@ -1,0 +1,1 @@
+module.exports = require("npm:vexflow@1.2.36/releases/vexflow-debug.js");
