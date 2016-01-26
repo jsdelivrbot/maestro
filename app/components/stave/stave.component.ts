@@ -8,22 +8,13 @@ import _ from 'lodash';
   inputs: ['stave']
 })
 @View({
-  styleUrls: ['/app/components/stave.css'],
   styles: [`
-      .stave-canvas {
-        margin-right: -5px;
-      }
       .stave-container {
         display: inline-block;
       }
     `
   ],
-  template: `
-    <div class="stave-container" tabindex="0" (keyup.arrowright)="goRight()" (keyup.arrowleft)="goLeft()"
-      (keyup.arrowup)="raisePitch()" (keyup.arrowdown)="lowerPitch()">
-      <canvas width=301 height=100 class="stave-canvas" #canvas></canvas>
-    </div>
-  `
+  templateUrl: 'app/components/stave/stave.template.html'
 })
 export class StaveComponent {
   static WIDTH : number = 300;
