@@ -7,12 +7,7 @@ import 'vexflow'
 })
 @View({
   directives: [StaveComponent],
-  template: `
-    <button (click)="addStave()">Add Stave</button>
-    <div>
-      <stave *ngFor="#stave of staves" [stave]="stave"></stave>
-    </div>
-  `
+  templateUrl: 'app/components/sheet/sheet.template.html'
 })
 export class SheetComponent {
   staves: Array<Vex.Flow.Stave>;
