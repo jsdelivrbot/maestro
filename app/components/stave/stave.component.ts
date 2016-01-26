@@ -2,18 +2,13 @@ import {Component, View, Inject, ViewChild} from 'angular2/core';
 import {RendererService} from '../../services/renderer.service';
 import {VoiceDecorator} from '../../models/voice.decorator';
 import _ from 'lodash';
+import './stave.style.scss';
 
 @Component({
   selector: 'stave',
   inputs: ['stave']
 })
 @View({
-  styles: [`
-      .stave-container {
-        display: inline-block;
-      }
-    `
-  ],
   templateUrl: 'app/components/stave/stave.template.html'
 })
 export class StaveComponent {
