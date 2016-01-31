@@ -1,3 +1,4 @@
+"use strict";
 require('zone.js/dist/zone.min.js');
 require('reflect-metadata');
 var browser_1 = require('angular2/platform/browser');

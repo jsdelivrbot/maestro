@@ -1,7 +1,8 @@
 import {Component, View, Inject, ViewChild} from 'angular2/core';
 import {RendererService} from '../../services/renderer.service';
 import {VoiceDecorator} from '../../models/voice.decorator';
-import _ from 'lodash';
+import * as _ from 'lodash';
+import * as Vex from 'vexflow'
 import './stave.style.scss';
 
 @Component({
@@ -42,10 +43,10 @@ export class StaveComponent {
 
     voice.addTickables(notes);
     var voiceWithNotes = {voice: voice, notes: notes}
-    this.voice = new VoiceDecorator(voice, notes); 
+    this.voice = new VoiceDecorator(voice, notes);
     this.selectedNoteIndex = 0;
   }
-  
+
   ngAfterViewInit() {
     this.renderer = new RendererService(this.canvas.nativeElement);
     this.renderer.drawStave(this.stave);
@@ -55,7 +56,7 @@ export class StaveComponent {
   drawVoices() {
     this.renderer.drawVoice(this.stave, this.voice.vfVoice);
   }
-  
+
   goRight() {
     if (this.selectedNoteIndex < 3) {
       this.deselectNotes(this.voice.vfNotes)

@@ -1,6 +1,6 @@
 import {Component, View} from 'angular2/core';
 import {StaveComponent} from './../stave/stave.component';
-import 'vexflow'
+import * as Vex from 'vexflow';
 
 @Component({
   selector: 'sheet'
