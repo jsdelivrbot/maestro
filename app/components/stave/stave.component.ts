@@ -2,7 +2,6 @@ import {Component, View, Inject, ViewChild} from 'angular2/core';
 import {RendererService} from '../../services/renderer.service';
 import {VoiceDecorator} from '../../models/voice.decorator';
 import * as _ from 'lodash';
-import * as Vex from 'vexflow'
 import './stave.style.scss';
 
 @Component({

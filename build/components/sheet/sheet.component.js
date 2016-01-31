@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var stave_component_1 = require('./../stave/stave.component');
-var Vex = require('vexflow');
+// import * as Vex from 'vexflow';
 var SheetComponent = (function () {
     function SheetComponent() {
         var stave = new Vex.Flow.Stave(0, 0, 300);

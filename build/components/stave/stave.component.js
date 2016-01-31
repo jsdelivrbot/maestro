@@ -12,7 +12,6 @@ var core_1 = require('angular2/core');
 var renderer_service_1 = require('../../services/renderer.service');
 var voice_decorator_1 = require('../../models/voice.decorator');
 var _ = require('lodash');
-var Vex = require('vexflow');
 require('./stave.style.scss');
 var StaveComponent = (function () {
     function StaveComponent() {
