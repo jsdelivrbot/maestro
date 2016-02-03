@@ -1,3 +1,8 @@
-<div class="stave-container" tabindex="0" (keyup.arrowright)="goRight()" (keyup.arrowleft)="goLeft()" (keyup.arrowup)="raisePitch()" (keyup.arrowdown)="lowerPitch()">
+<div class="stave-container" tabindex="0"
+  (keyup.arrowright)="goRight()"
+  (keyup.arrowleft)="goLeft()"
+  (keyup.arrowup)="raisePitch()"
+  (keyup.arrowdown)="lowerPitch()"
+  (keyup.backspace)="deleteNote()">
   <canvas width=301 height=100 class="stave-canvas" #canvas></canvas>
 </div>

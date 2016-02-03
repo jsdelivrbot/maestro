@@ -69,8 +69,8 @@ export class StaveComponent {
     if (this.selectedNoteIndex > 0) {
       this.deselectNotes(this.voice.vfNotes)
       this.selectedNoteIndex -= 1;
-      this.selectNote(this.voice.vfNotes[this.selectedNoteIndex])
-      this.renderer.drawVoice(this.stave, this.voice.vfVoice)
+      this.selectNote(this.voice.vfNotes[this.selectedNoteIndex]);
+      this.renderer.drawVoice(this.stave, this.voice.vfVoice);
     }
   }
 
@@ -88,26 +88,27 @@ export class StaveComponent {
     return this.voice.vfNotes[this.selectedNoteIndex];
   }
 
+  deleteNote() {
+    this.updateNote('b/4', 'qr');
+    this.updateVoice(this.voice.vfNotes);
+  }
+
   raisePitch() {
     let selected = this.selectedNote();
     let key = selected.getKeys()[0];
-    let newKey = this.raiseKey(key)
+    let newKey = this.raiseKey(key);
 
-    this.updateNote(newKey);
-    let voice = this.updateVoice(this.voice.vfNotes);
-    this.voice.vfVoice = voice;
-    this.renderer.drawVoice(this.stave, voice)
+    this.updateNote(newKey, 'q');
+    this.updateVoice(this.voice.vfNotes);
   }
 
   lowerPitch() {
     let selected = this.selectedNote();
     let key = selected.getKeys()[0];
-    let newKey = this.lowerKey(key)
+    let newKey = this.lowerKey(key);
 
-    this.updateNote(newKey)
-    let voice = this.updateVoice(this.voice.vfNotes);
-    this.voice.vfVoice = voice;
-    this.renderer.drawVoice(this.stave, voice)
+    this.updateNote(newKey, 'q');
+    this.updateVoice(this.voice.vfNotes);
   }
 
   raiseKey(key: string) : string {
@@ -115,7 +116,7 @@ export class StaveComponent {
     let newNoteName = this.newNoteName(noteName.charCodeAt(0) + 1);
     let raiseOctave = this.shouldRaiseOctave(noteName, newNoteName);
     let newoctave = raiseOctave ? String(+octave + 1) : octave;
-    return `${newNoteName}/${newoctave}`
+    return `${newNoteName}/${newoctave}`;
   }
 
   lowerKey(key: string) : string {
@@ -147,8 +148,8 @@ export class StaveComponent {
     return String.fromCharCode(newCharCode);
   }
 
-  updateNote(key: string) {
-    let note = new Vex.Flow.StaveNote({ keys: [key], duration: "q" })
+  updateNote(key: string, duration: string) {
+    let note = new Vex.Flow.StaveNote({ keys: [key], duration: duration })
     this.voice.vfNotes[this.selectedNoteIndex] = note;
     this.selectNote(note);
   }
@@ -159,6 +160,8 @@ export class StaveComponent {
       beat_value: 4,
       resolution: Vex.Flow.RESOLUTION
     });
-    return voice.addTickables(notes);
+    voice.addTickables(notes);
+    this.voice.vfVoice = voice;
+    this.renderer.drawVoice(this.stave, voice);
   }
 }
