@@ -7,17 +7,24 @@ export class ChangePitchService {
     let newKey = this.raiseKey(key);
     let index = _.indexOf(voice.getTickables(), note)
     let note = this.updateNote(newKey, 'q');
-    
+
     return { voice: this.updateVoice(voice, note, index), note: note };
   }
 
   lowerPitch(note: Vex.Flow.Note, voice: Vex.Flow.Voice) : Vex.Flow.Voice {
     let key = note.getKeys()[0];
     let newKey = this.lowerKey(key);
-    let index = _.indexOf(voice.getTickables(), note)
+    let index = _.indexOf(voice.getTickables(), note);
+    let note = this.updateNote(newKey, 'q');
 
-    this.updateNote(newKey, 'q');
-    return this.updateVoice(voice, note, index);
+    return { voice: this.updateVoice(voice, note, index), note: note };
+  }
+
+  deleteNote(note: Vex.Flow.Note, voice: Vex.Flow.Voice) : Vex.Flow.Voice {
+    let index = _.indexOf(voice.getTickables(), note);
+    let note = this.updateNote('b/4', 'qr');
+
+    return { voice: this.updateVoice(voice, note, index), note: note };
   }
 
   private updateNote(key: string, duration: string) : Vex.Flow.StaveNote {

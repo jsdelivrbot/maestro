@@ -45,9 +45,8 @@ export class StaveComponent {
         resolution: Vex.Flow.RESOLUTION
     });
 
-    voice.addTickables(notes);
+    this.voice = voice.addTickables(notes);
     var voiceWithNotes = {voice: voice, notes: notes}
-    this.voice = new VoiceDecorator(voice, notes);
     this.selectedNoteIndex = 0;
   }
 
@@ -58,24 +57,24 @@ export class StaveComponent {
   }
 
   drawVoices() {
-    this.renderer.drawVoice(this.stave, this.voice.vfVoice);
+    this.renderer.drawVoice(this.stave, this.voice);
   }
 
   goRight() {
     if (this.selectedNoteIndex < 3) {
-      this.deselectNotes(this.voice.vfNotes)
+      this.deselectNotes(this.voice.getTickables())
       this.selectedNoteIndex += 1;
-      this.selectNote(this.voice.vfNotes[this.selectedNoteIndex])
-      this.renderer.drawVoice(this.stave, this.voice.vfVoice)
+      this.selectNote(this.voice.getTickables()[this.selectedNoteIndex])
+      this.renderer.drawVoice(this.stave, this.voice)
     }
   }
 
   goLeft() {
     if (this.selectedNoteIndex > 0) {
-      this.deselectNotes(this.voice.vfNotes)
+      this.deselectNotes(this.voice.getTickables())
       this.selectedNoteIndex -= 1;
-      this.selectNote(this.voice.vfNotes[this.selectedNoteIndex]);
-      this.renderer.drawVoice(this.stave, this.voice.vfVoice);
+      this.selectNote(this.voice.getTickables()[this.selectedNoteIndex]);
+      this.renderer.drawVoice(this.stave, this.voice);
     }
   }
 
@@ -90,27 +89,27 @@ export class StaveComponent {
   }
 
   selectedNote() : Vex.Flow.StaveNote {
-    return this.voice.vfNotes[this.selectedNoteIndex];
+    return this.voice.getTickables()[this.selectedNoteIndex];
   }
 
   deleteNote() {
-    this.updateNote('b/4', 'qr');
-    this.updateVoice(this.voice.vfNotes);
+    let updates = this.changePitchService.deleteNote(this.selectedNote(), this.voice);
+    this.voice = updates.voice;
+    this.selectNote(updates.note);
+    this.renderer.drawVoice(this.stave, this.voice);
   }
 
   raisePitch() {
-    let updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice.vfVoice);
-    this.voice.vfVoice = updates.voice;
-    this.voice.vfNotes = updates.voice.getTickables()
+    let updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice);
+    this.voice = updates.voice;
     this.selectNote(updates.note);
-    this.renderer.drawVoice(this.stave, updates.voice);
+    this.renderer.drawVoice(this.stave, this.voice);
   }
 
   lowerPitch() {
-    let updates = this.changePitchService.lowerPitch(this.selectedNote(), this.voice.vfVoice);
-    this.voice.vfVoice = updates.voice;
-    this.voice.vfNotes = updates.voice.getTickables()
+    let updates = this.changePitchService.lowerPitch(this.selectedNote(), this.voice);
+    this.voice = updates.voice;
     this.selectNote(updates.note);
-    this.renderer.drawVoice(this.stave, updates.voice);
+    this.renderer.drawVoice(this.stave, this.voice);
   }
 }
