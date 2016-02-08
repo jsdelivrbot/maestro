@@ -1,7 +1,6 @@
 import {Component, View, Inject, ViewChild} from 'angular2/core';
 import {RendererService} from '../../services/renderer.service';
 import {ChangePitchService} from '../../services/change-pitch.service';
-import {VoiceDecorator} from '../../models/voice.decorator';
 import * as _ from 'lodash';
 import './stave.style.scss';
 
@@ -23,7 +22,7 @@ export class StaveComponent {
   canvasSelector: string;
   renderer: RendererService;
   changePitchService: ChangePitchService;
-  voice: VoiceDecorator;
+  voice: Vex.Flow.Voice;
   notes: Array<Vex.Flow.Note>;
   selectedNoteIndex: number;
 
