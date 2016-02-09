@@ -1,13 +1,14 @@
 import {Component, View, Inject, ViewChild} from 'angular2/core';
 import {RendererService} from '../../services/renderer.service';
 import {ChangePitchService} from '../../services/change-pitch.service';
+import {AddNoteService} from '../../services/add-note.service';
 import * as _ from 'lodash';
 import './stave.style.scss';
 
 @Component({
   selector: 'stave',
   inputs: ['stave'],
-  providers: [ChangePitchService]
+  providers: [ChangePitchService, AddNoteService]
 })
 @View({
   templateUrl: 'app/components/stave/stave.template.html'
@@ -22,12 +23,14 @@ export class StaveComponent {
   canvasSelector: string;
   renderer: RendererService;
   changePitchService: ChangePitchService;
+  addNoteService: AddNoteService;
   voice: Vex.Flow.Voice;
   notes: Array<Vex.Flow.Note>;
   selectedNoteIndex: number;
 
   constructor() {
-    this.changePitchService = new ChangePitchService
+    this.changePitchService = new ChangePitchService;
+    this.addNoteService = new AddNoteService;
 
     var notes = [
         new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
@@ -100,6 +103,7 @@ export class StaveComponent {
 
   raisePitch() {
     let updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice);
+    this.addNoteService.isShorter(this.selectedNote())
     this.voice = updates.voice;
     this.selectNote(updates.note);
     this.renderer.drawVoice(this.stave, this.voice);
