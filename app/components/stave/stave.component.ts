@@ -39,6 +39,8 @@ export class StaveComponent {
         new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" })
     ];
 
+    this.addNoteService.testMethod(notes[0])
+
     notes[0].setStyle({strokeStyle: "blue", fillStyle: 'blue'});
 
     var voice = new Vex.Flow.Voice({
@@ -50,6 +52,7 @@ export class StaveComponent {
     this.voice = voice.addTickables(notes);
     var voiceWithNotes = {voice: voice, notes: notes}
     this.selectedNoteIndex = 0;
+    this.addNoteService.addNote('8', 0, notes[0], this.voice)
   }
 
   ngAfterViewInit() {
