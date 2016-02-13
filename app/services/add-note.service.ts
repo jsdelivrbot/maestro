@@ -18,7 +18,6 @@ export class AddNoteService {
       console.log('coming soon...')
     } else {
       let notes = voice.getTickables();
-      console.log('old notes ---->', notes)
       let newNotes = this.divideNote(newNote, oldNote);
       Array.prototype.splice.apply(notes, [index, 1].concat(newNotes));
       let newVoice = new Vex.Flow.Voice({num_beats: 4,beat_value: 4,resolution: Vex.Flow.RESOLUTION});
@@ -41,23 +40,23 @@ export class AddNoteService {
 
     console.log(this.isLonger(newNote, oldNote))
 
-    newDuration = this.duration(newNote)
-    oldDuration = this.duration(oldNote)
-    newNotesCount = oldDuration / newDuration
+    const newDuration = this.duration(newNote)
+    const oldDuration = this.duration(oldNote)
+    const newNotesCount = oldDuration / newDuration
 
-    newNotes = new Array<Vex.Flow.StaveNote>();
+    const newNotes = new Array<Vex.Flow.StaveNote>();
     for (let i of _.range(0, newNotesCount)) {
       let note = new Vex.Flow.StaveNote({keys: ['b/4'], duration: newNote.getDuration()})
       newNotes.push(note)
     }
   }
 
-  divideNote(newNote: Vex.Flow.StaveNote, oldNote: Vex.Flow.StaveNote) {
-    newDuration = this.duration(newNote)
-    oldDuration = this.duration(oldNote)
-    newNotesCount = oldDuration / newDuration
+  divideNote(newNote: Vex.Flow.StaveNote, oldNote: Vex.Flow.StaveNote) : Array<Vex.Flow.StaveNote> {
+    const newDuration = this.duration(newNote)
+    const oldDuration = this.duration(oldNote)
+    const newNotesCount = oldDuration / newDuration
 
-    newNotes = new Array<Vex.Flow.StaveNote>();
+    const newNotes = new Array<Vex.Flow.StaveNote>();
     for (let i of _.range(0, newNotesCount)) {
       let note = new Vex.Flow.StaveNote({keys: ['b/4'], duration: newNote.getDuration()})
       newNotes.push(note)

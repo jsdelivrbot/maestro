@@ -7,20 +7,20 @@ var ChangePitchService = (function () {
         var key = note.getKeys()[0];
         var newKey = this.raiseKey(key);
         var index = _.indexOf(voice.getTickables(), note);
-        var note = this.updateNote(newKey, 'q');
-        return { voice: this.updateVoice(voice, note, index), note: note };
+        var newNote = this.updateNote(newKey, 'q');
+        return { voice: this.updateVoice(voice, newNote, index), note: newNote };
     };
     ChangePitchService.prototype.lowerPitch = function (note, voice) {
         var key = note.getKeys()[0];
         var newKey = this.lowerKey(key);
         var index = _.indexOf(voice.getTickables(), note);
-        var note = this.updateNote(newKey, 'q');
-        return { voice: this.updateVoice(voice, note, index), note: note };
+        var newNote = this.updateNote(newKey, 'q');
+        return { voice: this.updateVoice(voice, newNote, index), note: newNote };
     };
     ChangePitchService.prototype.deleteNote = function (note, voice) {
         var index = _.indexOf(voice.getTickables(), note);
-        var note = this.updateNote('b/4', 'qr');
-        return { voice: this.updateVoice(voice, note, index), note: note };
+        var newNote = this.updateNote('b/4', 'qr');
+        return { voice: this.updateVoice(voice, newNote, index), note: newNote };
     };
     ChangePitchService.prototype.updateNote = function (key, duration) {
         return new Vex.Flow.StaveNote({ keys: [key], duration: duration });

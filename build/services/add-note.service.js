@@ -12,7 +12,6 @@ var AddNoteService = (function () {
         }
         else {
             var notes = voice.getTickables();
-            console.log('old notes ---->', notes);
             var newNotes = this.divideNote(newNote, oldNote);
             Array.prototype.splice.apply(notes, [index, 1].concat(newNotes));
             var newVoice = new Vex.Flow.Voice({ num_beats: 4, beat_value: 4, resolution: Vex.Flow.RESOLUTION });
@@ -29,10 +28,10 @@ var AddNoteService = (function () {
     AddNoteService.prototype.testMethod = function (oldNote) {
         var newNote = new Vex.Flow.StaveNote({ keys: ['b/4'], duration: '8' });
         console.log(this.isLonger(newNote, oldNote));
-        newDuration = this.duration(newNote);
-        oldDuration = this.duration(oldNote);
-        newNotesCount = oldDuration / newDuration;
-        newNotes = new Array();
+        var newDuration = this.duration(newNote);
+        var oldDuration = this.duration(oldNote);
+        var newNotesCount = oldDuration / newDuration;
+        var newNotes = new Array();
         for (var _i = 0, _a = _.range(0, newNotesCount); _i < _a.length; _i++) {
             var i = _a[_i];
             var note = new Vex.Flow.StaveNote({ keys: ['b/4'], duration: newNote.getDuration() });
@@ -40,10 +39,10 @@ var AddNoteService = (function () {
         }
     };
     AddNoteService.prototype.divideNote = function (newNote, oldNote) {
-        newDuration = this.duration(newNote);
-        oldDuration = this.duration(oldNote);
-        newNotesCount = oldDuration / newDuration;
-        newNotes = new Array();
+        var newDuration = this.duration(newNote);
+        var oldDuration = this.duration(oldNote);
+        var newNotesCount = oldDuration / newDuration;
+        var newNotes = new Array();
         for (var _i = 0, _a = _.range(0, newNotesCount); _i < _a.length; _i++) {
             var i = _a[_i];
             var note = new Vex.Flow.StaveNote({ keys: ['b/4'], duration: newNote.getDuration() });

@@ -2,29 +2,29 @@ import * as _ from 'lodash';
 
 export class ChangePitchService {
 
-  raisePitch(note: Vex.Flow.Note, voice: Vex.Flow.Voice) : { voice: Vex.Flow.Note; note: Vex.Flow.Voice; } {
+  raisePitch(note: Vex.Flow.StaveNote, voice: Vex.Flow.Voice) : { voice: Vex.Flow.Voice; note: Vex.Flow.StaveNote; } {
     let key = note.getKeys()[0];
     let newKey = this.raiseKey(key);
     let index = _.indexOf(voice.getTickables(), note)
-    let note = this.updateNote(newKey, 'q');
+    let newNote = this.updateNote(newKey, 'q');
 
-    return { voice: this.updateVoice(voice, note, index), note: note };
+    return { voice: this.updateVoice(voice, newNote, index), note: newNote };
   }
 
-  lowerPitch(note: Vex.Flow.Note, voice: Vex.Flow.Voice) : { voice: Vex.Flow.Note; note: Vex.Flow.Voice; } {
+  lowerPitch(note: Vex.Flow.StaveNote, voice: Vex.Flow.Voice) : { voice: Vex.Flow.Voice; note: Vex.Flow.StaveNote; } {
     let key = note.getKeys()[0];
     let newKey = this.lowerKey(key);
     let index = _.indexOf(voice.getTickables(), note);
-    let note = this.updateNote(newKey, 'q');
+    let newNote = this.updateNote(newKey, 'q');
 
-    return { voice: this.updateVoice(voice, note, index), note: note };
+    return { voice: this.updateVoice(voice, newNote, index), note: newNote };
   }
 
-  deleteNote(note: Vex.Flow.Note, voice: Vex.Flow.Voice) : { voice: Vex.Flow.Note; note: Vex.Flow.Voice; } {
+  deleteNote(note: Vex.Flow.StaveNote, voice: Vex.Flow.Voice) : { voice: Vex.Flow.Voice; note: Vex.Flow.StaveNote; } {
     let index = _.indexOf(voice.getTickables(), note);
-    let note = this.updateNote('b/4', 'qr');
+    let newNote = this.updateNote('b/4', 'qr');
 
-    return { voice: this.updateVoice(voice, note, index), note: note };
+    return { voice: this.updateVoice(voice, newNote, index), note: newNote };
   }
 
   private updateNote(key: string, duration: string) : Vex.Flow.StaveNote {
