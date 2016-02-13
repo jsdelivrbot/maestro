@@ -1,3 +1,5 @@
+/// <reference path="../../../typings/browser/ambient/vexflow/vexflow.d.ts" />
+
 import {Component, View} from 'angular2/core';
 import {StaveComponent} from './../stave/stave.component';
 import * as Vex from 'vexflow';

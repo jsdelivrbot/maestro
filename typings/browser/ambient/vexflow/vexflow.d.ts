@@ -8,7 +8,7 @@
 //inconsistent namespace: this is a helper funtion from tables.js and should not pollute the global namespace!
 declare function sanitizeDuration(duration : string) : string;
 
-declare namespace Vex {
+declare module Vex {
 
     function L(block : string, args : any[]) : void;
     function Merge<T extends Object>(destination : T, source : Object) : T;
@@ -1412,4 +1412,8 @@ declare namespace Vex {
             const enum type {NONE, BEGIN, MID, END, BEGIN_END}
         }
     }
+}
+
+declare module "vexflow" {
+  export = Vex;
 }
