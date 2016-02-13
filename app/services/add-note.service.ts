@@ -14,7 +14,7 @@ export class AddNoteService {
 
   addNote(duration: string, index: number, oldNote: Vex.Flow.StaveNote, voice: Vex.Flow.Voice) : Vex.Flow.Voice {
     let newNote = new Vex.Flow.StaveNote({keys: ['b/4'], duration: duration})
-    if this.isLonger(newNote, oldNote) {
+    if (this.isLonger(newNote, oldNote)) {
       console.log('coming soon...')
     } else {
       let notes = voice.getTickables();
