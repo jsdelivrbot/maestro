@@ -67,18 +67,18 @@ export class StaveComponent {
 
   goRight() {
     if (this.selectedNoteIndex < 3) {
-      this.deselectNotes(this.voice.getTickables())
+      this.deselectNotes(<Vex.Flow.StaveNote[]>this.voice.getTickables())
       this.selectedNoteIndex += 1;
-      this.selectNote(this.voice.getTickables()[this.selectedNoteIndex])
+      this.selectNote(<Vex.Flow.StaveNote>this.voice.getTickables()[this.selectedNoteIndex])
       this.renderer.drawVoice(this.stave, this.voice)
     }
   }
 
   goLeft() {
     if (this.selectedNoteIndex > 0) {
-      this.deselectNotes(this.voice.getTickables())
+      this.deselectNotes(<Vex.Flow.StaveNote[]>this.voice.getTickables())
       this.selectedNoteIndex -= 1;
-      this.selectNote(this.voice.getTickables()[this.selectedNoteIndex]);
+      this.selectNote(<Vex.Flow.StaveNote>this.voice.getTickables()[this.selectedNoteIndex]);
       this.renderer.drawVoice(this.stave, this.voice);
     }
   }
@@ -94,7 +94,7 @@ export class StaveComponent {
   }
 
   selectedNote() : Vex.Flow.StaveNote {
-    return this.voice.getTickables()[this.selectedNoteIndex];
+    return <Vex.Flow.StaveNote>this.voice.getTickables()[this.selectedNoteIndex];
   }
 
   deleteNote() {
@@ -106,7 +106,6 @@ export class StaveComponent {
 
   raisePitch() {
     let updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice);
-    this.addNoteService.isShorter(this.selectedNote())
     this.voice = updates.voice;
     this.selectNote(updates.note);
     this.renderer.drawVoice(this.stave, this.voice);

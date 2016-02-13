@@ -79,7 +79,6 @@ var StaveComponent = (function () {
     };
     StaveComponent.prototype.raisePitch = function () {
         var updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice);
-        this.addNoteService.isShorter(this.selectedNote());
         this.voice = updates.voice;
         this.selectNote(updates.note);
         this.renderer.drawVoice(this.stave, this.voice);
