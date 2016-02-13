@@ -1,0 +1,4 @@
+<select (change)="onChange($event)">
+  <option *ngFor="#duration of durations">{{duration}}</option>
+</select>
+<button (click)="addNote()">Add Note</button>

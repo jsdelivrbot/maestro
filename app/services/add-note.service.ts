@@ -26,7 +26,6 @@ export class AddNoteService {
 
       return newVoice
     }
-
   }
 
   duration(note: Vex.Flow.StaveNote) : number {
