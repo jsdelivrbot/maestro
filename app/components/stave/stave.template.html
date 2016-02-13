@@ -6,6 +6,10 @@
   (keyup.backspace)="deleteNote()">
   <canvas width=301 height=100 class="stave-canvas" #canvas></canvas>
   <div>
-    <notes-control [voice]="voice"></notes-control>
+    <notes-control
+      [voice]="voice"
+      [selectedNoteIndex]="selectedNoteIndex"
+      [selectedNote]="selectedNote()">
+    </notes-control>
   </div>
 </div>
