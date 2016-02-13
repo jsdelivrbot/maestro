@@ -9,29 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('angular2/core');
-var stave_component_1 = require('./../stave/stave.component');
-var Vex = require('vexflow');
-var SheetComponent = (function () {
-    function SheetComponent() {
-        var stave = new Vex.Flow.Stave(0, 0, 300);
-        var stave2 = new Vex.Flow.Stave(0, 0, 300);
-        this.staves = [stave, stave2];
+var NotesControlComponent = (function () {
+    function NotesControlComponent() {
+        this.durations = ['w', 'h', 'q', '8', '16', '32'];
+        this.selectedDuration = this.durations[0];
     }
-    SheetComponent.prototype.addStave = function () {
-        var stave = new Vex.Flow.Stave(0, 0, 300);
-        this.staves.push(stave);
+    NotesControlComponent.prototype.onChange = function (event) {
+        this.selectedDuration = event.target.value;
     };
-    SheetComponent = __decorate([
+    NotesControlComponent.prototype.addNote = function () {
+        console.log('yeeee', this.selectedDuration);
+    };
+    NotesControlComponent = __decorate([
         core_1.Component({
-            selector: 'sheet'
+            selector: 'notes-control',
+            inputs: ['voice']
         }),
         core_1.View({
-            directives: [stave_component_1.StaveComponent],
-            templateUrl: 'app/components/sheet/sheet.template.html'
+            templateUrl: 'app/components/notes-control/notes-control.template.html'
         }), 
         __metadata('design:paramtypes', [])
-    ], SheetComponent);
-    return SheetComponent;
+    ], NotesControlComponent);
+    return NotesControlComponent;
 }());
-exports.SheetComponent = SheetComponent;
-//# sourceMappingURL=sheet.component.js.map
+exports.NotesControlComponent = NotesControlComponent;
+//# sourceMappingURL=notes-control.component.js.map

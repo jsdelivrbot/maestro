@@ -17,9 +17,8 @@
   },
   "exclude": [
     "jspm_packages",
-    "node_modules"
-  ],
-  "files": [
-    "typings/browser.d.ts"
+    "node_modules",
+    "typings/main",
+    "typings/main.d.ts"
   ]
 }

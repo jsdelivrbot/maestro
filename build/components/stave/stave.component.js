@@ -10,11 +10,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var renderer_service_1 = require('../../services/renderer.service');
-var voice_decorator_1 = require('../../models/voice.decorator');
+var change_pitch_service_1 = require('../../services/change-pitch.service');
+var add_note_service_1 = require('../../services/add-note.service');
+var notes_control_component_1 = require('../notes-control/notes-control.component');
 var _ = require('lodash');
 require('./stave.style.scss');
 var StaveComponent = (function () {
     function StaveComponent() {
+        this.changePitchService = new change_pitch_service_1.ChangePitchService;
+        this.addNoteService = new add_note_service_1.AddNoteService;
         var notes = [
             new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
             new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
@@ -27,10 +31,10 @@ var StaveComponent = (function () {
             beat_value: 4,
             resolution: Vex.Flow.RESOLUTION
         });
-        voice.addTickables(notes);
+        this.voice = voice.addTickables(notes);
         var voiceWithNotes = { voice: voice, notes: notes };
-        this.voice = new voice_decorator_1.VoiceDecorator(voice, notes);
         this.selectedNoteIndex = 0;
+        // this.addNoteService.addNote('8', 0, notes[0], this.voice)
     }
     StaveComponent.prototype.ngAfterViewInit = function () {
         this.renderer = new renderer_service_1.RendererService(this.canvas.nativeElement);
@@ -38,22 +42,22 @@ var StaveComponent = (function () {
         this.drawVoices();
     };
     StaveComponent.prototype.drawVoices = function () {
-        this.renderer.drawVoice(this.stave, this.voice.vfVoice);
+        this.renderer.drawVoice(this.stave, this.voice);
     };
     StaveComponent.prototype.goRight = function () {
         if (this.selectedNoteIndex < 3) {
-            this.deselectNotes(this.voice.vfNotes);
+            this.deselectNotes(this.voice.getTickables());
             this.selectedNoteIndex += 1;
-            this.selectNote(this.voice.vfNotes[this.selectedNoteIndex]);
-            this.renderer.drawVoice(this.stave, this.voice.vfVoice);
+            this.selectNote(this.voice.getTickables()[this.selectedNoteIndex]);
+            this.renderer.drawVoice(this.stave, this.voice);
         }
     };
     StaveComponent.prototype.goLeft = function () {
         if (this.selectedNoteIndex > 0) {
-            this.deselectNotes(this.voice.vfNotes);
+            this.deselectNotes(this.voice.getTickables());
             this.selectedNoteIndex -= 1;
-            this.selectNote(this.voice.vfNotes[this.selectedNoteIndex]);
-            this.renderer.drawVoice(this.stave, this.voice.vfVoice);
+            this.selectNote(this.voice.getTickables()[this.selectedNoteIndex]);
+            this.renderer.drawVoice(this.stave, this.voice);
         }
     };
     StaveComponent.prototype.selectNote = function (note) {
@@ -65,71 +69,26 @@ var StaveComponent = (function () {
         });
     };
     StaveComponent.prototype.selectedNote = function () {
-        return this.voice.vfNotes[this.selectedNoteIndex];
+        return this.voice.getTickables()[this.selectedNoteIndex];
+    };
+    StaveComponent.prototype.deleteNote = function () {
+        var updates = this.changePitchService.deleteNote(this.selectedNote(), this.voice);
+        this.voice = updates.voice;
+        this.selectNote(updates.note);
+        this.renderer.drawVoice(this.stave, this.voice);
     };
     StaveComponent.prototype.raisePitch = function () {
-        var selected = this.selectedNote();
-        var key = selected.getKeys()[0];
-        var newKey = this.raiseKey(key);
-        this.updateNote(newKey);
-        var voice = this.updateVoice(this.voice.vfNotes);
-        this.voice.vfVoice = voice;
-        this.renderer.drawVoice(this.stave, voice);
+        var updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice);
+        this.addNoteService.isShorter(this.selectedNote());
+        this.voice = updates.voice;
+        this.selectNote(updates.note);
+        this.renderer.drawVoice(this.stave, this.voice);
     };
     StaveComponent.prototype.lowerPitch = function () {
-        var selected = this.selectedNote();
-        var key = selected.getKeys()[0];
-        var newKey = this.lowerKey(key);
-        this.updateNote(newKey);
-        var voice = this.updateVoice(this.voice.vfNotes);
-        this.voice.vfVoice = voice;
-        this.renderer.drawVoice(this.stave, voice);
-    };
-    StaveComponent.prototype.raiseKey = function (key) {
-        var _a = key.split('/'), noteName = _a[0], octave = _a[1];
-        var newNoteName = this.newNoteName(noteName.charCodeAt(0) + 1);
-        var raiseOctave = this.shouldRaiseOctave(noteName, newNoteName);
-        var newoctave = raiseOctave ? String(+octave + 1) : octave;
-        return newNoteName + "/" + newoctave;
-    };
-    StaveComponent.prototype.lowerKey = function (key) {
-        var _a = key.split('/'), noteName = _a[0], octave = _a[1];
-        var newNoteName = this.newNoteName(noteName.charCodeAt(0) - 1);
-        var lowerOctave = this.shouldLowerOctave(noteName, newNoteName);
-        var newoctave = lowerOctave ? String(+octave - 1) : octave;
-        return newNoteName + "/" + newoctave;
-    };
-    StaveComponent.prototype.shouldRaiseOctave = function (noteName, newNoteName) {
-        return (noteName == 'b' && newNoteName == 'c');
-    };
-    StaveComponent.prototype.shouldLowerOctave = function (noteName, newNoteName) {
-        return (noteName == 'c' && newNoteName == 'b');
-    };
-    StaveComponent.prototype.newNoteName = function (charCode) {
-        var newCharCode;
-        if (charCode > 103) {
-            newCharCode = 97;
-        }
-        else if (charCode < 97) {
-            newCharCode = 103;
-        }
-        else {
-            newCharCode = charCode;
-        }
-        return String.fromCharCode(newCharCode);
-    };
-    StaveComponent.prototype.updateNote = function (key) {
-        var note = new Vex.Flow.StaveNote({ keys: [key], duration: "q" });
-        this.voice.vfNotes[this.selectedNoteIndex] = note;
-        this.selectNote(note);
-    };
-    StaveComponent.prototype.updateVoice = function (notes) {
-        var voice = new Vex.Flow.Voice({
-            num_beats: 4,
-            beat_value: 4,
-            resolution: Vex.Flow.RESOLUTION
-        });
-        return voice.addTickables(notes);
+        var updates = this.changePitchService.lowerPitch(this.selectedNote(), this.voice);
+        this.voice = updates.voice;
+        this.selectNote(updates.note);
+        this.renderer.drawVoice(this.stave, this.voice);
     };
     StaveComponent.WIDTH = 300;
     StaveComponent.HEIGHT = 100;
@@ -140,9 +99,11 @@ var StaveComponent = (function () {
     StaveComponent = __decorate([
         core_1.Component({
             selector: 'stave',
-            inputs: ['stave']
+            inputs: ['stave'],
+            providers: [change_pitch_service_1.ChangePitchService, add_note_service_1.AddNoteService]
         }),
         core_1.View({
+            directives: [notes_control_component_1.NotesControlComponent],
             templateUrl: 'app/components/stave/stave.template.html'
         }), 
         __metadata('design:paramtypes', [])
