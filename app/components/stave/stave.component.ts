@@ -27,7 +27,6 @@ export class StaveComponent {
   changePitchService: ChangePitchService;
   addNoteService: AddNoteService;
   voice: Vex.Flow.Voice;
-  notes: Array<Vex.Flow.Note>;
   selectedNoteIndex: number;
 
   constructor() {
