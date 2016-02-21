@@ -24,7 +24,6 @@ export class AddNoteService {
       Array.prototype.splice.apply(notes, [index, 1].concat(newNotes));
       let newVoice = new Vex.Flow.Voice({num_beats: 4,beat_value: 4,resolution: Vex.Flow.RESOLUTION});
       newVoice.addTickables(notes)
-      console.log('========> new voice', newVoice);
 
       return newVoice
     }

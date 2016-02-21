@@ -32,7 +32,6 @@ var StaveComponent = (function () {
             resolution: Vex.Flow.RESOLUTION
         });
         this.voice = voice.addTickables(notes);
-        var voiceWithNotes = { voice: voice, notes: notes };
         this.selectedNoteIndex = 0;
     }
     StaveComponent.prototype.ngAfterViewInit = function () {
@@ -42,13 +41,14 @@ var StaveComponent = (function () {
     };
     StaveComponent.prototype.updateVoice = function (voice) {
         this.voice = voice;
+        this.selectNote(this.selectedNote());
         this.renderer.drawVoice(this.stave, this.voice);
     };
     StaveComponent.prototype.goRight = function () {
-        if (this.selectedNoteIndex < 3) {
+        if (this.selectedNoteIndex < this.notesCount() - 1) {
             this.deselectNotes(this.voice.getTickables());
             this.selectedNoteIndex += 1;
-            this.selectNote(this.voice.getTickables()[this.selectedNoteIndex]);
+            this.selectNote(this.selectedNote());
             this.updateVoice(this.voice);
         }
     };
@@ -56,9 +56,12 @@ var StaveComponent = (function () {
         if (this.selectedNoteIndex > 0) {
             this.deselectNotes(this.voice.getTickables());
             this.selectedNoteIndex -= 1;
-            this.selectNote(this.voice.getTickables()[this.selectedNoteIndex]);
+            this.selectNote(this.selectedNote());
             this.updateVoice(this.voice);
         }
+    };
+    StaveComponent.prototype.notesCount = function () {
+        return this.voice.getTickables().length;
     };
     StaveComponent.prototype.selectNote = function (note) {
         note.setStyle({ strokeStyle: 'blue', fillStyle: 'blue' });

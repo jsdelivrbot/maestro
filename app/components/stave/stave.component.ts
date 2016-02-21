@@ -49,7 +49,6 @@ export class StaveComponent {
     });
 
     this.voice = voice.addTickables(notes);
-    var voiceWithNotes = {voice: voice, notes: notes}
     this.selectedNoteIndex = 0;
   }
 
@@ -59,17 +58,17 @@ export class StaveComponent {
     this.updateVoice(this.voice);
   }
 
-  updateVoice(voice) {
+  updateVoice(voice: Vex.Flow.Voice) {
     this.voice = voice;
     this.selectNote(this.selectedNote());
     this.renderer.drawVoice(this.stave, this.voice);
   }
 
   goRight() {
-    if (this.selectedNoteIndex < this.voice.getTickables().length - 1) {
+    if (this.selectedNoteIndex < this.notesCount() - 1) {
       this.deselectNotes(<Vex.Flow.StaveNote[]>this.voice.getTickables())
       this.selectedNoteIndex += 1;
-      this.selectNote(<Vex.Flow.StaveNote>this.voice.getTickables()[this.selectedNoteIndex])
+      this.selectNote(this.selectedNote());
       this.updateVoice(this.voice);
     }
   }
@@ -78,9 +77,13 @@ export class StaveComponent {
     if (this.selectedNoteIndex > 0) {
       this.deselectNotes(<Vex.Flow.StaveNote[]>this.voice.getTickables())
       this.selectedNoteIndex -= 1;
-      this.selectNote(<Vex.Flow.StaveNote>this.voice.getTickables()[this.selectedNoteIndex]);
+      this.selectNote(this.selectedNote());
       this.updateVoice(this.voice)
     }
+  }
+
+  notesCount() : number {
+    return this.voice.getTickables().length;
   }
 
   selectNote(note: Vex.Flow.StaveNote) {
