@@ -27,8 +27,8 @@ export class StaveComponent {
   voice: Vex.Flow.Voice;
   selectedNoteIndex: number;
 
-  constructor() {
-    this.changePitchService = new ChangePitchService;
+  constructor(changePitchService: ChangePitchService) {
+    this.changePitchService = changePitchService;
 
     var notes = [
         new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),

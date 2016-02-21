@@ -26,7 +26,7 @@ export class NotesControlComponent {
 
   constructor(addNotesService: AddNotesService) {
     this.addNotesService = addNotesService;
-    this.durations = ['w', 'h', 'q', '8', '16', '32']
+    this.durations = ['w', 'h', 'q', '8', '16', '32'];
     this.selectedDuration = this.durations[0];
   }
 
