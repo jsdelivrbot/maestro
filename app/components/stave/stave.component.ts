@@ -66,7 +66,7 @@ export class StaveComponent {
   }
 
   goRight() {
-    if (this.selectedNoteIndex < 3) {
+    if (this.selectedNoteIndex < this.voice.getTickables().length - 1) {
       this.deselectNotes(<Vex.Flow.StaveNote[]>this.voice.getTickables())
       this.selectedNoteIndex += 1;
       this.selectNote(<Vex.Flow.StaveNote>this.voice.getTickables()[this.selectedNoteIndex])
