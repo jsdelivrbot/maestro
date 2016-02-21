@@ -1,6 +1,6 @@
 {
   "ambientDependencies": {
     "lodash": "github:DefinitelyTyped/DefinitelyTyped/lodash/lodash.d.ts#df712b17fa4737fdb3eb52118b1465cd3be81a1d",
-    "vexflow": "github:DefinitelyTyped/DefinitelyTyped/vexflow/vexflow.d.ts#94e9eb1be47e62b2940b6b1e50a03d3753ec1ec4"
+    "vexflow": "github:DefinitelyTyped/DefinitelyTyped/vexflow/vexflow.d.ts#220e6719ea9efc8b0325303bd8c55575084ae471"
   }
 }

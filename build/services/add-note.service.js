@@ -6,6 +6,8 @@ var AddNoteService = (function () {
         console.log('hi!');
     };
     AddNoteService.prototype.addNote = function (duration, index, oldNote, voice) {
+        console.log('duration -->', duration);
+        console.log('old duration -->', oldNote.getDuration());
         var newNote = new Vex.Flow.StaveNote({ keys: ['b/4'], duration: duration });
         if (this.isLonger(newNote, oldNote)) {
             console.log('coming soon...');
@@ -16,6 +18,7 @@ var AddNoteService = (function () {
             Array.prototype.splice.apply(notes, [index, 1].concat(newNotes));
             var newVoice = new Vex.Flow.Voice({ num_beats: 4, beat_value: 4, resolution: Vex.Flow.RESOLUTION });
             newVoice.addTickables(notes);
+            console.log('========> new voice', newVoice);
             return newVoice;
         }
     };

@@ -13,6 +13,8 @@ export class AddNoteService {
   }
 
   addNote(duration: string, index: number, oldNote: Vex.Flow.StaveNote, voice: Vex.Flow.Voice) : Vex.Flow.Voice {
+    console.log('duration -->', duration)
+    console.log('old duration -->', oldNote.getDuration())
     let newNote = new Vex.Flow.StaveNote({keys: ['b/4'], duration: duration})
     if (this.isLonger(newNote, oldNote)) {
       console.log('coming soon...')
@@ -22,6 +24,7 @@ export class AddNoteService {
       Array.prototype.splice.apply(notes, [index, 1].concat(newNotes));
       let newVoice = new Vex.Flow.Voice({num_beats: 4,beat_value: 4,resolution: Vex.Flow.RESOLUTION});
       newVoice.addTickables(notes)
+      console.log('========> new voice', newVoice);
 
       return newVoice
     }

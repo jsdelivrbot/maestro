@@ -1,5 +1,5 @@
 // Compiled using typings@0.6.8
-// Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/94e9eb1be47e62b2940b6b1e50a03d3753ec1ec4/vexflow/vexflow.d.ts
+// Source: https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/220e6719ea9efc8b0325303bd8c55575084ae471/vexflow/vexflow.d.ts
 // Type definitions for VexFlow v1.2.27
 // Project: http://vexflow.com
 // Definitions by: Roman Quiring <https://github.com/rquiring>
@@ -8,7 +8,7 @@
 //inconsistent namespace: this is a helper funtion from tables.js and should not pollute the global namespace!
 declare function sanitizeDuration(duration : string) : string;
 
-declare module Vex {
+declare namespace Vex {
 
     function L(block : string, args : any[]) : void;
     function Merge<T extends Object>(destination : T, source : Object) : T;
