@@ -1,5 +1,5 @@
 import {Component, View, EventEmitter} from 'angular2/core';
-import {AddNoteService} from '../../services/add-note.service';
+import {AddNotesService} from '../../services/add-notes.service';
 import {RendererService} from '../../services/renderer.service';
 
 @Component({
@@ -9,7 +9,8 @@ import {RendererService} from '../../services/renderer.service';
     'selectedNoteIndex',
     'selectedNote'
   ],
-  outputs: ['updateVoice']
+  outputs: ['updateVoice'],
+  providers: [AddNotesService]
 })
 @View({
   templateUrl: 'app/components/notes-control/notes-control.template.html'
@@ -21,9 +22,10 @@ export class NotesControlComponent {
   selectedNoteIndex: number;
   selectedNote: Vex.Flow.StaveNote;
   updateVoice: EventEmitter<Vex.Flow.Voice> = new EventEmitter();
+  addNotesService: AddNotesService;
 
-  constructor() {
-    this.addNoteService = new AddNoteService;
+  constructor(addNotesService: AddNotesService) {
+    this.addNotesService = addNotesService;
     this.durations = ['w', 'h', 'q', '8', '16', '32']
     this.selectedDuration = this.durations[0];
   }
@@ -33,13 +35,11 @@ export class NotesControlComponent {
   }
 
   addNote() {
-    const newVoice = this.addNoteService.addNote(
+    const newVoice = this.addNotesService.addNote(
       this.selectedDuration,
       this.selectedNoteIndex,
-      this.selectedNote,
       this.voice
     )
-    console.log('new voice --->', newVoice)
     this.updateVoice.emit(newVoice);
   }
 }

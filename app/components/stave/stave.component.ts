@@ -1,7 +1,6 @@
 import {Component, View, Inject, ViewChild} from 'angular2/core';
 import {RendererService} from '../../services/renderer.service';
 import {ChangePitchService} from '../../services/change-pitch.service';
-import {AddNoteService} from '../../services/add-note.service';
 import {NotesControlComponent} from '../notes-control/notes-control.component'
 import * as _ from 'lodash';
 import './stave.style.scss';
@@ -9,7 +8,7 @@ import './stave.style.scss';
 @Component({
   selector: 'stave',
   inputs: ['stave'],
-  providers: [ChangePitchService, AddNoteService]
+  providers: [ChangePitchService]
 })
 @View({
   directives: [NotesControlComponent],
@@ -25,13 +24,11 @@ export class StaveComponent {
   canvasSelector: string;
   renderer: RendererService;
   changePitchService: ChangePitchService;
-  addNoteService: AddNoteService;
   voice: Vex.Flow.Voice;
   selectedNoteIndex: number;
 
   constructor() {
     this.changePitchService = new ChangePitchService;
-    this.addNoteService = new AddNoteService;
 
     var notes = [
         new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
