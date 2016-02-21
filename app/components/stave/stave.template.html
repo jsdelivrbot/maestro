@@ -10,8 +10,7 @@
       [voice]="voice"
       [selectedNoteIndex]="selectedNoteIndex"
       [selectedNote]="selectedNote()"
-      [renderer]="renderer"
-      [stave]="stave">
+      (updateVoice)="updateVoice($event)">
     </notes-control>
   </div>
 </div>

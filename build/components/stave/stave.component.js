@@ -34,14 +34,14 @@ var StaveComponent = (function () {
         this.voice = voice.addTickables(notes);
         var voiceWithNotes = { voice: voice, notes: notes };
         this.selectedNoteIndex = 0;
-        // this.addNoteService.addNote('8', 0, notes[0], this.voice)
     }
     StaveComponent.prototype.ngAfterViewInit = function () {
         this.renderer = new renderer_service_1.RendererService(this.canvas.nativeElement);
         this.renderer.drawStave(this.stave);
-        this.drawVoices();
+        this.updateVoice(this.voice);
     };
-    StaveComponent.prototype.drawVoices = function () {
+    StaveComponent.prototype.updateVoice = function (voice) {
+        this.voice = voice;
         this.renderer.drawVoice(this.stave, this.voice);
     };
     StaveComponent.prototype.goRight = function () {
@@ -49,7 +49,7 @@ var StaveComponent = (function () {
             this.deselectNotes(this.voice.getTickables());
             this.selectedNoteIndex += 1;
             this.selectNote(this.voice.getTickables()[this.selectedNoteIndex]);
-            this.renderer.drawVoice(this.stave, this.voice);
+            this.updateVoice(this.voice);
         }
     };
     StaveComponent.prototype.goLeft = function () {
@@ -57,7 +57,7 @@ var StaveComponent = (function () {
             this.deselectNotes(this.voice.getTickables());
             this.selectedNoteIndex -= 1;
             this.selectNote(this.voice.getTickables()[this.selectedNoteIndex]);
-            this.renderer.drawVoice(this.stave, this.voice);
+            this.updateVoice(this.voice);
         }
     };
     StaveComponent.prototype.selectNote = function (note) {
@@ -73,21 +73,18 @@ var StaveComponent = (function () {
     };
     StaveComponent.prototype.deleteNote = function () {
         var updates = this.changePitchService.deleteNote(this.selectedNote(), this.voice);
-        this.voice = updates.voice;
         this.selectNote(updates.note);
-        this.renderer.drawVoice(this.stave, this.voice);
+        this.updateVoice(updates.voice);
     };
     StaveComponent.prototype.raisePitch = function () {
         var updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice);
-        this.voice = updates.voice;
         this.selectNote(updates.note);
-        this.renderer.drawVoice(this.stave, this.voice);
+        this.updateVoice(updates.voice);
     };
     StaveComponent.prototype.lowerPitch = function () {
         var updates = this.changePitchService.lowerPitch(this.selectedNote(), this.voice);
-        this.voice = updates.voice;
         this.selectNote(updates.note);
-        this.renderer.drawVoice(this.stave, this.voice);
+        this.updateVoice(updates.voice);
     };
     StaveComponent.WIDTH = 300;
     StaveComponent.HEIGHT = 100;

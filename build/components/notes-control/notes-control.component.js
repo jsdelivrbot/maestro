@@ -12,6 +12,7 @@ var core_1 = require('angular2/core');
 var add_note_service_1 = require('../../services/add-note.service');
 var NotesControlComponent = (function () {
     function NotesControlComponent() {
+        this.updateVoice = new core_1.EventEmitter();
         this.addNoteService = new add_note_service_1.AddNoteService;
         this.durations = ['w', 'h', 'q', '8', '16', '32'];
         this.selectedDuration = this.durations[0];
@@ -21,9 +22,8 @@ var NotesControlComponent = (function () {
     };
     NotesControlComponent.prototype.addNote = function () {
         var newVoice = this.addNoteService.addNote(this.selectedDuration, this.selectedNoteIndex, this.selectedNote, this.voice);
-        this.voice = newVoice;
-        this.renderer.drawVoice(this.stave, this.voice);
         console.log('new voice --->', newVoice);
+        this.updateVoice.emit(newVoice);
     };
     NotesControlComponent = __decorate([
         core_1.Component({
@@ -31,10 +31,9 @@ var NotesControlComponent = (function () {
             inputs: [
                 'voice',
                 'selectedNoteIndex',
-                'selectedNote',
-                'stave',
-                'renderer'
-            ]
+                'selectedNote'
+            ],
+            outputs: ['updateVoice']
         }),
         core_1.View({
             templateUrl: 'app/components/notes-control/notes-control.template.html'
