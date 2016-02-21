@@ -6,7 +6,7 @@ export class ChangePitchService {
     let key = note.getKeys()[0];
     let newKey = this.raiseKey(key);
     let index = _.indexOf(voice.getTickables(), note)
-    let newNote = this.updateNote(newKey, 'q');
+    let newNote = this.updateNote(newKey, note.getDuration());
 
     return { voice: this.updateVoice(voice, newNote, index), note: newNote };
   }
@@ -15,7 +15,7 @@ export class ChangePitchService {
     let key = note.getKeys()[0];
     let newKey = this.lowerKey(key);
     let index = _.indexOf(voice.getTickables(), note);
-    let newNote = this.updateNote(newKey, 'q');
+    let newNote = this.updateNote(newKey, note.getDuration());
 
     return { voice: this.updateVoice(voice, newNote, index), note: newNote };
   }

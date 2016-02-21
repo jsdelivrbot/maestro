@@ -61,6 +61,7 @@ export class StaveComponent {
 
   updateVoice(voice) {
     this.voice = voice;
+    this.selectNote(this.selectedNote());
     this.renderer.drawVoice(this.stave, this.voice);
   }
 
