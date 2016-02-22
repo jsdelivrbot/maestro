@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var add_notes_service_1 = require('../../services/add-notes.service');
 var NotesControlComponent = (function () {
-    function NotesControlComponent() {
+    function NotesControlComponent(addNotesService) {
         this.updateVoice = new core_1.EventEmitter();
-        this.addNoteService = new AddNoteService;
+        this.addNotesService = addNotesService;
         this.durations = ['w', 'h', 'q', '8', '16', '32'];
         this.selectedDuration = this.durations[0];
     }
@@ -21,8 +21,7 @@ var NotesControlComponent = (function () {
         this.selectedDuration = event.target.value;
     };
     NotesControlComponent.prototype.addNote = function () {
-        var newVoice = this.addNoteService.addNote(this.selectedDuration, this.selectedNoteIndex, this.voice);
-        console.log('new voice --->', newVoice);
+        var newVoice = this.addNotesService.addNote(this.selectedDuration, this.selectedNoteIndex, this.voice);
         this.updateVoice.emit(newVoice);
     };
     NotesControlComponent = __decorate([
@@ -39,7 +38,7 @@ var NotesControlComponent = (function () {
         core_1.View({
             templateUrl: 'app/components/notes-control/notes-control.template.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [add_notes_service_1.AddNotesService])
     ], NotesControlComponent);
     return NotesControlComponent;
 }());

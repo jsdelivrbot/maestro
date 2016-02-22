@@ -11,14 +11,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('angular2/core');
 var renderer_service_1 = require('../../services/renderer.service');
 var change_pitch_service_1 = require('../../services/change-pitch.service');
-var add_note_service_1 = require('../../services/add-note.service');
 var notes_control_component_1 = require('../notes-control/notes-control.component');
 var _ = require('lodash');
 require('./stave.style.scss');
 var StaveComponent = (function () {
-    function StaveComponent() {
-        this.changePitchService = new change_pitch_service_1.ChangePitchService;
-        this.addNoteService = new add_note_service_1.AddNoteService;
+    function StaveComponent(changePitchService) {
+        this.changePitchService = changePitchService;
         var notes = [
             new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
             new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
@@ -99,13 +97,13 @@ var StaveComponent = (function () {
         core_1.Component({
             selector: 'stave',
             inputs: ['stave'],
-            providers: [change_pitch_service_1.ChangePitchService, add_note_service_1.AddNoteService]
+            providers: [change_pitch_service_1.ChangePitchService]
         }),
         core_1.View({
             directives: [notes_control_component_1.NotesControlComponent],
             templateUrl: 'app/components/stave/stave.template.html'
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [change_pitch_service_1.ChangePitchService])
     ], StaveComponent);
     return StaveComponent;
 }());

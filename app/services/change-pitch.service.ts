@@ -1,4 +1,5 @@
 import * as _ from 'lodash';
+import * as Vex from 'vexflow';
 
 export class ChangePitchService {
 

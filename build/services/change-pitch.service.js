@@ -1,5 +1,6 @@
 "use strict";
 var _ = require('lodash');
+var Vex = require('vexflow');
 var ChangePitchService = (function () {
     function ChangePitchService() {
     }
