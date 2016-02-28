@@ -42,4 +42,19 @@ export class NotesControlComponent {
     )
     this.updateVoice.emit(newVoice);
   }
+  
+  addSharp() {
+    this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('#'));
+    this.updateVoice.emit(this.voice);
+  }
+  
+  addFlat() {
+    this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('b'));
+    this.updateVoice.emit(this.voice);
+  }
+  
+  private resetSelectedNote() : Vex.Flow.StaveNote { 
+    this.updateVoice.emit(this.addNotesService.deleteModifiers(this.selectedNote, this.selectedNoteIndex, this.voice));
+    return this.voice.getTickables()[this.selectedNoteIndex];
+  }
 }

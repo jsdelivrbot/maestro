@@ -22,6 +22,16 @@ export class AddNotesService {
     }
   };
   
+  deleteModifiers(note: Vex.Flow.StaveNote, index: number, voice: Vex.Flow.Voice) : Vex.Flow.Voice {
+    const newNote = new Vex.Flow.StaveNote({keys: note.getKeys(), duration: note.getDuration()});
+    const newVoice = new Vex.Flow.Voice({num_beats: 4,beat_value: 4,resolution: Vex.Flow.RESOLUTION});
+    const notes = voice.getTickables();
+    notes[index] = newNote;
+    newVoice.addTickables(notes);
+    
+   return newVoice; 
+  }
+  
   private addShorterNotes(newNote: Vex.Flow.StaveNote, oldNote: Vex.Flow.StaveNote, index: number, notes: Array<Vex.Flow.StaveNote>) : Vex.Flow.Voice {
     const newNotesCount = this.divideNote(oldNote, newNote);
     const newNotes = this.createNotes(newNotesCount, newNote.getDuration())
