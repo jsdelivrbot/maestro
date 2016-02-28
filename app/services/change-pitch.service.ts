@@ -23,7 +23,7 @@ export class ChangePitchService {
 
   deleteNote(note: Vex.Flow.StaveNote, voice: Vex.Flow.Voice) : { voice: Vex.Flow.Voice; note: Vex.Flow.StaveNote; } {
     let index = _.indexOf(voice.getTickables(), note);
-    let newNote = this.updateNote('b/4', 'qr');
+    let newNote = this.updateNote('b/4', note.getDuration() + 'r');
 
     return { voice: this.updateVoice(voice, newNote, index), note: newNote };
   }
