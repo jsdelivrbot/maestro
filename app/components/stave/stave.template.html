@@ -5,6 +5,7 @@
   (keyup.arrowdown)="lowerPitch()"
   (keyup.backspace)="deleteNote()">
   <canvas width=301 height=100 class="stave-canvas" #canvas></canvas>
+  <stave-action-tabs></stave-action-tabs>
   <div>
     <notes-control
       [voice]="voice"

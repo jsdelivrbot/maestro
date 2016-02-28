@@ -1,7 +1,8 @@
 import {Component, View, Inject, ViewChild} from 'angular2/core';
 import {RendererService} from '../../services/renderer.service';
 import {ChangePitchService} from '../../services/change-pitch.service';
-import {NotesControlComponent} from '../notes-control/notes-control.component'
+import {NotesControlComponent} from '../notes-control/notes-control.component';
+import {StaveActionTabs} from '../stave-action-tabs/stave-action-tabs.component';
 import * as _ from 'lodash';
 import './stave.style.scss';
 
@@ -11,7 +12,7 @@ import './stave.style.scss';
   providers: [ChangePitchService]
 })
 @View({
-  directives: [NotesControlComponent],
+  directives: [NotesControlComponent, StaveActionTabs],
   templateUrl: 'app/components/stave/stave.template.html'
 })
 export class StaveComponent {
