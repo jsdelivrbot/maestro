@@ -2,8 +2,7 @@ import {Component, View, EventEmitter} from 'angular2/core';
 import {TabsManagerService} from '../../services/tabs-manager.service';
 
 @Component({
-  selector: 'add-note-tab',
-  inputs: ['tabsManager']
+  selector: 'add-note-tab'
 })
 @View({
   templateUrl: 'app/components/add-note-tab/add-note-tab.template.html'
@@ -12,14 +11,11 @@ import {TabsManagerService} from '../../services/tabs-manager.service';
 export class AddNoteTab {
   tabsManager: TabsManagerService;
   active: boolean;
-  updateTab: EventEmitter<boolean> = new EventEmitter();
 
-  constructor() {
-    this.active = true;
-  };
-
-  ngAfterViewInit() {
+  constructor(tabsManager: TabsManagerService) {
+    this.tabsManager = tabsManager;
     this.tabsManager.addTab(this);
+    this.active = true; // selected by default
   };
 
   deselect() {
