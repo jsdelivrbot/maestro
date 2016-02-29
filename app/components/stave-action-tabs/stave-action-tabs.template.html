@@ -1,5 +1,11 @@
+<button (click)="test()">test</button>
 <ul>
-  <add-note-tab [hidden]="!addNoteTabActive"></add-note-tab>
-  <edit-note-tab [hidden]="!editNoteTabActive"></edit-note-tab>
-  <edit-stave-tab [hidden]="!editStaveTabActive"></edit-stave-tab>
+  <li (click)="showAddNoteTab()">Add note</li>
+  <li (click)="showEditNoteTab()">Edit note</li>
+  <li (click)="showEditStaveTab()">Edit stave</li>
 </ul>
+<div>
+  <add-note-tab [tabsManager]="tabsManager"></add-note-tab>
+  <edit-note-tab [tabsManager]="tabsManager"></edit-note-tab>
+  <edit-stave-tab [hidden]="!editStaveTabActive"></edit-stave-tab>
+</div>
