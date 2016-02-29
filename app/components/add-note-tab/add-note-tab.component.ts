@@ -7,5 +7,10 @@ import {Component, View} from 'angular2/core';
   templateUrl: 'app/components/add-note-tab/add-note-tab.template.html'
 })
 export class AddNoteTab {
+  active: boolean;
+
+  constructor() {
+    this.active = true;
+  }
 
 }

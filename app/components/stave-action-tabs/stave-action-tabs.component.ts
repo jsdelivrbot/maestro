@@ -11,4 +11,13 @@ import {EditStaveTab} from '../edit-stave-tab/edit-stave-tab.component';
   templateUrl: 'app/components/stave-action-tabs/stave-action-tabs.template.html'
 })
 export class StaveActionTabs {
+  addNoteTabActive: boolean;
+  editNoteTabActive: boolean;
+  editStaveTabActive: boolean;
+
+  constructor() {
+    this.addNoteTabActive = false;
+    this.editNoteTabActive = false;
+    this.editStaveTabActive = true;
+  }
 };

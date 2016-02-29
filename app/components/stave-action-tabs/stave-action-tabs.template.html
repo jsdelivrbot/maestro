@@ -1,5 +1,5 @@
-<div>
-  <add-note-tab></add-note-tab>
-  <edit-note-tab></edit-note-tab>
-  <edit-stave-tab></edit-stave-tab>
-</div>
+<ul>
+  <add-note-tab [hidden]="!addNoteTabActive"></add-note-tab>
+  <edit-note-tab [hidden]="!editNoteTabActive"></edit-note-tab>
+  <edit-stave-tab [hidden]="!editStaveTabActive"></edit-stave-tab>
+</ul>
