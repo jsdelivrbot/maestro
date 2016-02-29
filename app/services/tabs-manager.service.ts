@@ -10,19 +10,16 @@ export class TabsManagerService {
   };
 
   selectTab(tabClass: Function) {
-    const tab = this.tabs.find(function(tab) {
+    this.tabs.find(function(tab) {
       return tab.constructor.name === tabClass.name;
-    });
-    tab.select();
+    }).select();
   };
 
   addTab(tab: any) {
     this.tabs.push(tab);
-    console.log('added tab', this.tabs);
   };
 
   deselectTabs() {
-    console.log('deslecting tabs...');
     _.map(this.tabs, function (tab) {
       tab.deselect();
     });

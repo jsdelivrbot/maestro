@@ -17,12 +17,10 @@ export class EditNoteTab {
   };
 
   deselect() {
-    console.log('deselecting');
     this.active = false;
   };
 
   select() {
-    console.log('selecting');
     this.tabsManager.deselectTabs();
     this.active = true;
   };

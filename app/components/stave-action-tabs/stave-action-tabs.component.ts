@@ -3,6 +3,7 @@ import {AddNoteTab} from '../add-note-tab/add-note-tab.component';
 import {EditNoteTab} from '../edit-note-tab/edit-note-tab.component';
 import {EditStaveTab} from '../edit-stave-tab/edit-stave-tab.component';
 import {TabsManagerService} from '../../services/tabs-manager.service';
+import './stave-action-tabs.style.scss';
 
 @Component({
   selector: 'stave-action-tabs',
@@ -34,18 +35,10 @@ export class StaveActionTabs {
   };
 
   showEditStaveTab() {
-    this.showEditStaveTab = true;
+    this.tabsManager.selectTab(EditStaveTab);
   };
 
   deselectTabs() {
     this.tabsManager.deselectTabs();
   };
-
-  test() {
-    console.log(this.tabsManager.tabs);
-    let tab = this.tabsManager.tabs.find(function(tab) {
-      return tab.constructor.name === 'AddNoteTab'
-    });
-    console.log('found it?', tab)
-  }
 };
