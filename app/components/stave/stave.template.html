@@ -3,15 +3,15 @@
   (keyup.arrowleft)="goLeft()"
   (keyup.arrowup)="raisePitch()"
   (keyup.arrowdown)="lowerPitch()"
-  (keyup.backspace)="deleteNote()">
+  (keyup.space)="deleteNote()">
   <canvas width=301 height=100 class="stave-canvas" #canvas></canvas>
   <stave-action-tabs></stave-action-tabs>
-  <div>
+  <!-- <div>
     <notes-control
       [voice]="voice"
       [selectedNoteIndex]="selectedNoteIndex"
       [selectedNote]="selectedNote()"
       (updateVoice)="updateVoice($event)">
     </notes-control>
-  </div>
+  </div> -->
 </div>
