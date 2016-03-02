@@ -5,25 +5,43 @@ import {VoiceService} from './voice.service';
 
 @Injectable()
 export class SelectNoteService {
-  // selectedNote: Vex.Flow.StaveNote;
   selectedNote: Rx.Subject<Vex.Flow.StaveNote> = new Rx.BehaviorSubject<Vex.Flow.StaveNote>(null);
+  note: Vex.Flow.StaveNote;
   voice: Vex.Flow.Voice;
+  subscription: any;
 
   constructor(private _voice: VoiceService) {
-    console.log(this.voice)
     _voice.selectedVoice.subscribe((voice) =>
-      this.voice = voice;
-      console.log('new voice!');
+      this.updateVoice(voice);
     );
-  }
+    this.selectedNote.subscribe((note) =>
+      if (note) {
+        this.updateNote(note);
+      }
+    )
+  };
 
   selectNote(index: number) {
     this.deselectNotes();
     const note = this.voice.getTickables()[index];
-    note.setStyle({strokeStyle: 'blue', fillStyle: 'blue'});
     this.selectedNote.next(note);
     this._voice.setVoice(this.voice);
   };
+
+  private updateVoice(voice: Vex.Flow.Voice) {
+    this.voice = voice;
+  };
+
+  private updateNote(note: Vex.Flow.StaveNote) {
+    this.note = note;
+    this.highlightNote(note);
+  }
+
+  private highlightNote(note: Vex.Flow.StaveNote) {
+    if (note) {
+      note.setStyle({strokeStyle: 'blue', fillStyle: 'blue'});
+    }
+  }
 
   private deselectNotes() {
     _.map(this.voice.getTickables(), function(note) {

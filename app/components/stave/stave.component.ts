@@ -75,6 +75,9 @@ export class StaveComponent {
     this.renderer.drawStave();
     // this.updateVoice(this.voice);
     this.voiceService.setVoice(this.voice);
+    this.voiceService.selectedVoice.subscribe((voice) =>
+      console.log('voice updated');
+    )
   }
 
   updateVoice(voice: Vex.Flow.Voice) {
@@ -111,11 +114,13 @@ export class StaveComponent {
 
   raisePitch() {
     let updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice);
-    this.updateVoice(updates.voice);
+    this.voiceService.setVoice(updates.voice);
+    this.selectNoteService.selectNote(this.selectedNoteIndex);
   }
 
   lowerPitch() {
     let updates = this.changePitchService.lowerPitch(this.selectedNote(), this.voice);
-    this.updateVoice(updates.voice);
+    this.voiceService.setVoice(updates.voice);
+    this.selectNoteService.selectNote(this.selectedNoteIndex);
   }
 }
