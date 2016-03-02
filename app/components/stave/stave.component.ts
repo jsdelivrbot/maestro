@@ -67,15 +67,15 @@ export class StaveComponent {
   }
 
   ngAfterViewInit() {
-    this.renderer.setContext(this.canvas.nativeElement);
-    this.renderer.drawStave(this.stave);
+    this.renderer.setContext(this.canvas.nativeElement, this.stave);
+    this.renderer.drawStave();
     this.updateVoice(this.voice);
   }
 
   updateVoice(voice: Vex.Flow.Voice) {
     this.voice = voice;
     this.selectNoteService.selectNote(this.selectedNote(), this.voice);
-    this.renderer.drawVoice(this.stave, this.voice);
+    this.renderer.drawVoice(this.voice);
   }
 
   goRight() {
