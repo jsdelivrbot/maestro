@@ -73,35 +73,31 @@ export class StaveComponent {
   ngAfterViewInit() {
     this.renderer.setContext(this.canvas.nativeElement, this.stave);
     this.renderer.drawStave();
-    this.updateVoice(this.voice);
+    // this.updateVoice(this.voice);
+    this.voiceService.setVoice(this.voice);
   }
 
   updateVoice(voice: Vex.Flow.Voice) {
     this.voice = voice;
     this.selectNoteService.selectNote(this.selectedNote(), this.voice);
-    this.voiceService.setVoice(voice);
   }
 
   goRight() {
     if (this.selectedNoteIndex < this.notesCount() - 1) {
       this.selectedNoteIndex += 1;
-      this.updateVoice(this.voice);
+      this.selectNoteService.selectNote(this.selectedNoteIndex);
     }
   }
 
   goLeft() {
     if (this.selectedNoteIndex > 0) {
       this.selectedNoteIndex -= 1;
-      this.updateVoice(this.voice)
+      this.selectNoteService.selectNote(this.selectedNoteIndex);
     }
   }
 
   notesCount() : number {
     return this.voice.getTickables().length;
-  }
-
-  selectNote(note: Vex.Flow.StaveNote) {
-    this.selectNoteService.selectNote(note this.voice);
   }
 
   selectedNote() : Vex.Flow.StaveNote {
