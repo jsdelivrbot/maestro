@@ -2,9 +2,9 @@ export class RendererService {
   canvas: HTMLScriptElement;
   context: Vex.IRenderContext;
 
-  constructor(canvas: HTMLScriptElement) {
+  setContext(canvas: HTMLScripElement) {
     this.canvas = canvas;
-    let vfRenderer = new Vex.Flow.Renderer(this.canvas, 1);
+    const vfRenderer = new Vex.Flow.Renderer(this.canvas, 1);
     this.context = vfRenderer.getContext();
   }
 

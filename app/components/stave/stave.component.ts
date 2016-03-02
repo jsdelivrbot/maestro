@@ -3,7 +3,6 @@ import {RendererService} from '../../services/renderer.service';
 import {ChangePitchService} from '../../services/change-pitch.service';
 import {AddNotesService} from '../../services/add-notes.service';
 import {SelectNoteService} from '../../services/select-note.service';
-import {SelectVoiceService} from '../../services/select-voice.service';
 import {NotesControlComponent} from '../notes-control/notes-control.component';
 import {StaveActionTabs} from '../stave-action-tabs/stave-action-tabs.component';
 import * as _ from 'lodash';
@@ -16,7 +15,7 @@ import './stave.style.scss';
     ChangePitchService,
     AddNotesService,
     SelectNoteService,
-    SelectVoiceService
+    RendererService
   ]
 })
 @View({
@@ -41,12 +40,12 @@ export class StaveComponent {
     changePitchService: ChangePitchService,
     addNotesService: AddNotesService,
     selectNoteService: SelectNoteService,
-    selectVoiceService: SelectVoiceService
+    renderer: RendererService
   ) {
     this.changePitchService = changePitchService;
     this.addNotesService = addNotesService;
     this.selectNoteService = selectNoteService;
-    this.selectVoiceService = selectVoiceService;
+    this.renderer = renderer;
 
     var notes = [
         new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
@@ -64,12 +63,11 @@ export class StaveComponent {
     });
 
     this.voice = voice.addTickables(notes);
-    this.selectVoiceService.selectVoice(this.voice);
     this.selectedNoteIndex = 0;
   }
 
   ngAfterViewInit() {
-    this.renderer = new RendererService(this.canvas.nativeElement);
+    this.renderer.setContext(this.canvas.nativeElement);
     this.renderer.drawStave(this.stave);
     this.updateVoice(this.voice);
   }
