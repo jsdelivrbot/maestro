@@ -3,6 +3,7 @@ import {RendererService} from '../../services/renderer.service';
 import {ChangePitchService} from '../../services/change-pitch.service';
 import {AddNotesService} from '../../services/add-notes.service';
 import {SelectNoteService} from '../../services/select-note.service';
+import {VoiceService} from '../../services/voice.service';
 import {NotesControlComponent} from '../notes-control/notes-control.component';
 import {StaveActionTabs} from '../stave-action-tabs/stave-action-tabs.component';
 import * as _ from 'lodash';
@@ -15,7 +16,8 @@ import './stave.style.scss';
     ChangePitchService,
     AddNotesService,
     SelectNoteService,
-    RendererService
+    RendererService,
+    VoiceService
   ]
 })
 @View({
@@ -40,12 +42,14 @@ export class StaveComponent {
     changePitchService: ChangePitchService,
     addNotesService: AddNotesService,
     selectNoteService: SelectNoteService,
-    renderer: RendererService
+    renderer: RendererService,
+    voiceService: VoiceService
   ) {
     this.changePitchService = changePitchService;
     this.addNotesService = addNotesService;
     this.selectNoteService = selectNoteService;
     this.renderer = renderer;
+    this.voiceService = voiceService;
 
     var notes = [
         new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
@@ -75,7 +79,7 @@ export class StaveComponent {
   updateVoice(voice: Vex.Flow.Voice) {
     this.voice = voice;
     this.selectNoteService.selectNote(this.selectedNote(), this.voice);
-    this.renderer.drawVoice(this.voice);
+    this.voiceService.setVoice(voice);
   }
 
   goRight() {
