@@ -12,9 +12,9 @@ export class SelectNoteService {
   subscription: any;
 
   constructor(private _voice: VoiceService) {
-    // _voice.voiceStream.subscribe((voice) =>
-    //   this.updateVoice(voice);
-    // );
+    _voice.voiceStream.subscribe((voice) =>
+      this.updateVoice(voice);
+    );
 
     this.selectedNote.subscribe((note) =>
       if (note) {
@@ -37,10 +37,10 @@ export class SelectNoteService {
 
   selectNote(note: Vex.Flow.StaveNote) {
     this.deselectNotes();
-    let index = _.indexOf(this._voice.currentVoice.getTickables(), note);
-    const note = this._voice.currentVoice.getTickables()[index];
+    let index = _.indexOf(this.voice.getTickables(), note);
+    const note = this.voice.getTickables()[index];
     this.selectedNote.next(note);
-    this._voice.setVoice(this._voice.currentVoice);
+    this._voice.setVoice(this.voice);
   };
 
   setIndex(index: number) {

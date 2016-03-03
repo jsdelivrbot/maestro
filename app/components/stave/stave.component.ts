@@ -76,9 +76,9 @@ export class StaveComponent {
     // this.updateVoice(this.voice);
     this.voiceService.setVoice(this.voice);
     this.selectNoteService.selectNote(this.selectedNote());
-    // this.voiceService.voiceStream.subscribe((voice) =>
-    //   this.voice = voice;
-    // )
+    this.voiceService.voiceStream.subscribe((voice) =>
+      this.voice = voice;
+    )
   }
 
   // updateVoice(voice: Vex.Flow.Voice) {
