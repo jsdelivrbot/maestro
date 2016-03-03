@@ -51,7 +51,7 @@ export class StaveComponent {
     this.renderer = renderer;
     this.voiceService = voiceService;
     this.selectedNoteIndex = 0;
-  }
+  };
 
   ngAfterViewInit() {
     this.renderer.setContext(this.canvas.nativeElement, this.stave);
@@ -70,33 +70,21 @@ export class StaveComponent {
     voice.addTickables(notes);
     this.voiceService.setVoice(voice);
     this.selectNoteService.selectNote(this.selectedNote());
-  }
+  };
 
   goRight() {
     if (this.selectedNoteIndex < this.notesCount() - 1) {
       this.selectedNoteIndex += 1;
       this.selectNoteService.selectNote(this.selectedNote());
     }
-  }
+  };
 
   goLeft() {
     if (this.selectedNoteIndex > 0) {
       this.selectedNoteIndex -= 1;
       this.selectNoteService.selectNote(this.selectedNote());
     }
-  }
-
-  notesCount() : number {
-    return this.voiceService.currentVoice.getTickables().length;
-  }
-
-  selectedNote() : Vex.Flow.StaveNote {
-    return <Vex.Flow.StaveNote>this.voiceService.currentVoice.getTickables()[this.selectedNoteIndex];
-  }
-
-  deleteNote() {
-    this.changePitchService.deleteNote();
-  }
+  };
 
   raisePitch() {
     this.changePitchService.raisePitch();
@@ -105,4 +93,16 @@ export class StaveComponent {
   lowerPitch() {
     this.changePitchService.lowerPitch();
   };
-}
+
+  deleteNote() {
+    this.changePitchService.deleteNote();
+  };
+
+  notesCount() : number {
+    return this.voiceService.currentVoice.getTickables().length;
+  };
+
+  selectedNote() : Vex.Flow.StaveNote {
+    return <Vex.Flow.StaveNote>this.voiceService.currentVoice.getTickables()[this.selectedNoteIndex];
+  };
+};
