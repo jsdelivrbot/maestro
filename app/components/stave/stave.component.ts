@@ -50,41 +50,27 @@ export class StaveComponent {
     this.selectNoteService = selectNoteService;
     this.renderer = renderer;
     this.voiceService = voiceService;
-
-    var notes = [
-        new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
-        new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
-        new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
-        new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" })
-    ];
-
-    notes[0].setStyle({strokeStyle: "blue", fillStyle: 'blue'});
-
-    var voice = new Vex.Flow.Voice({
-        num_beats: 4,
-        beat_value: 4,
-        resolution: Vex.Flow.RESOLUTION
-    });
-
-    this.voice = voice.addTickables(notes);
     this.selectedNoteIndex = 0;
   }
 
   ngAfterViewInit() {
     this.renderer.setContext(this.canvas.nativeElement, this.stave);
     this.renderer.drawStave();
-    // this.updateVoice(this.voice);
-    this.voiceService.setVoice(this.voice);
+    var notes = [
+        new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
+        new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
+        new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
+        new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" })
+    ];
+    var voice = new Vex.Flow.Voice({
+        num_beats: 4,
+        beat_value: 4,
+        resolution: Vex.Flow.RESOLUTION
+    });
+    voice.addTickables(notes);
+    this.voiceService.setVoice(voice);
     this.selectNoteService.selectNote(this.selectedNote());
-    this.voiceService.voiceStream.subscribe((voice) =>
-      this.voice = voice;
-    )
   }
-
-  // updateVoice(voice: Vex.Flow.Voice) {
-  //   this.voice = voice;
-  //   this.selectNoteService.selectNote(this.selectedNote(), this.voice);
-  // }
 
   goRight() {
     if (this.selectedNoteIndex < this.notesCount() - 1) {
@@ -101,7 +87,7 @@ export class StaveComponent {
   }
 
   notesCount() : number {
-    return this.voice.getTickables().length;
+    return this.voiceService.currentVoice.getTickables().length;
   }
 
   selectedNote() : Vex.Flow.StaveNote {
@@ -110,7 +96,6 @@ export class StaveComponent {
 
   deleteNote() {
     let updates = this.changePitchService.deleteNote(this.selectedNote(), this.voice);
-    // this.updateVoice(updates.voice);
   }
 
   raisePitch() {
