@@ -95,7 +95,7 @@ export class StaveComponent {
   }
 
   deleteNote() {
-    let updates = this.changePitchService.deleteNote(this.selectedNote(), this.voice);
+    this.changePitchService.deleteNote();
   }
 
   raisePitch() {

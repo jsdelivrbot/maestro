@@ -27,11 +27,11 @@ export class ChangePitchService {
     this._selectNoteService.selectNote(newNote)
   }
 
-  deleteNote(note: Vex.Flow.StaveNote, voice: Vex.Flow.Voice) : { voice: Vex.Flow.Voice; note: Vex.Flow.StaveNote; } {
-    let index = _.indexOf(voice.getTickables(), note);
-    let newNote = this.updateNote('b/4', note.getDuration() + 'r');
-
-    return { voice: this.updateVoice(voice, newNote, index), note: newNote };
+  deleteNote() {
+    let newNote = this.updateNote('b/4', this._selectNoteService.selectedNote.getDuration() + 'r');
+    let newVoice = this.updateVoice(newNote);
+    this._voiceService.setVoice(newVoice);
+    this._selectNoteService.selectNote(newNote)
   }
 
   private updateNote(key: string, duration: string) : Vex.Flow.StaveNote {
