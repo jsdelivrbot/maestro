@@ -105,7 +105,7 @@ export class StaveComponent {
   }
 
   selectedNote() : Vex.Flow.StaveNote {
-    return <Vex.Flow.StaveNote>this.voice.getTickables()[this.selectedNoteIndex];
+    return <Vex.Flow.StaveNote>this.voiceService.currentVoice.getTickables()[this.selectedNoteIndex];
   }
 
   deleteNote() {

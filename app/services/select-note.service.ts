@@ -8,14 +8,8 @@ export class SelectNoteService {
   selectedNote: Rx.Subject<Vex.Flow.StaveNote> = new Rx.BehaviorSubject<Vex.Flow.StaveNote>(null);
   selectedNoteIndex: Rx.Subject<number> = new Rx.BehaviorSubject<number>(null);
   note: Vex.Flow.StaveNote;
-  voice: Vex.Flow.Voice;
-  subscription: any;
 
   constructor(private _voice: VoiceService) {
-    _voice.voiceStream.subscribe((voice) =>
-      this.updateVoice(voice);
-    );
-
     this.selectedNote.subscribe((note) =>
       if (note) {
         this.updateNote(note);
@@ -27,29 +21,17 @@ export class SelectNoteService {
     this.selectedNoteIndex.next(0);
   };
 
-  // selectNote(index: number) {
-  //   this.deselectNotes();
-  //   const note = this.voice.getTickables()[index];
-  //   this.selectedNote.next(note);
-  //   this.selectedNoteIndex.next(index);
-  //   this._voice.setVoice(this.voice);
-  // };
-
   selectNote(note: Vex.Flow.StaveNote) {
     this.deselectNotes();
-    let index = _.indexOf(this.voice.getTickables(), note);
-    const note = this.voice.getTickables()[index];
+    let index = _.indexOf(this._voice.currentVoice.getTickables(), note);
+    const note = this._voice.currentVoice.getTickables()[index];
     this.selectedNote.next(note);
-    this._voice.setVoice(this.voice);
+    this._voice.setVoice(this._voice.currentVoice);
   };
 
   setIndex(index: number) {
     this.selectedNoteIndex.next(index)
   }
-
-  private updateVoice(voice: Vex.Flow.Voice) {
-    this.voice = voice;
-  };
 
   private updateNote(note: Vex.Flow.StaveNote) {
     this.note = note;
