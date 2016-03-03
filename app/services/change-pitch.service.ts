@@ -6,32 +6,22 @@ import * as Vex from 'vexflow';
 
 @Injectable()
 export class ChangePitchService {
-  voice: Vex.Flow.Voice;
-  selectedNote: Vex.Flow.StaveNote;
-
   constructor(private _voiceService: VoiceService, private _selectNoteService: SelectNoteService) {
-    _voiceService.voiceStream.subscribe((voice) =>
-      this.voice = voice;
-    );
-
-    _selectNoteService.selectedNote.subscribe((note) =>
-      this.selectedNote = note;
-    );
   };
 
   raisePitch() {
-    let key = this.selectedNote.getKeys()[0];
+    let key = this._selectNoteService.selectedNote.getKeys()[0];
     let newKey = this.raiseKey(key);
-    let newNote = this.updateNote(newKey, this.selectedNote.getDuration());
+    let newNote = this.updateNote(newKey, this._selectNoteService.selectedNote.getDuration());
     let newVoice = this.updateVoice(newNote);
     this._voiceService.setVoice(newVoice);
     this._selectNoteService.selectNote(newNote);
   }
 
   lowerPitch() {
-    let key = this.selectedNote.getKeys()[0];
+    let key = this._selectNoteService.selectedNote.getKeys()[0];
     let newKey = this.lowerKey(key);
-    let newNote = this.updateNote(newKey, this.selectedNote.getDuration());
+    let newNote = this.updateNote(newKey, this._selectNoteService.selectedNote.getDuration());
     let newVoice = this.updateVoice(newNote);
     this._voiceService.setVoice(newVoice);
     this._selectNoteService.selectNote(newNote)
@@ -54,8 +44,8 @@ export class ChangePitchService {
       beat_value: 4,
       resolution: Vex.Flow.RESOLUTION
     });
-    let notes = this.voice.getTickables();
-    let index = _.indexOf(this.voice.getTickables(), this.selectedNote);
+    let notes = this._voiceService.currentVoice.getTickables();
+    let index = _.indexOf(this._voiceService.currentVoice.getTickables(), this._selectNoteService.selectedNote);
     notes[index] = note;
 
     return newVoice.addTickables(notes);
