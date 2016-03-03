@@ -75,27 +75,28 @@ export class StaveComponent {
     this.renderer.drawStave();
     // this.updateVoice(this.voice);
     this.voiceService.setVoice(this.voice);
-    this.voiceService.selectedVoice.subscribe((voice) =>
-      console.log('voice updated');
-    )
+    this.selectNoteService.selectNote(this.selectedNote());
+    // this.voiceService.voiceStream.subscribe((voice) =>
+    //   this.voice = voice;
+    // )
   }
 
-  updateVoice(voice: Vex.Flow.Voice) {
-    this.voice = voice;
-    this.selectNoteService.selectNote(this.selectedNote(), this.voice);
-  }
+  // updateVoice(voice: Vex.Flow.Voice) {
+  //   this.voice = voice;
+  //   this.selectNoteService.selectNote(this.selectedNote(), this.voice);
+  // }
 
   goRight() {
     if (this.selectedNoteIndex < this.notesCount() - 1) {
       this.selectedNoteIndex += 1;
-      this.selectNoteService.selectNote(this.selectedNoteIndex);
+      this.selectNoteService.selectNote(this.selectedNote());
     }
   }
 
   goLeft() {
     if (this.selectedNoteIndex > 0) {
       this.selectedNoteIndex -= 1;
-      this.selectNoteService.selectNote(this.selectedNoteIndex);
+      this.selectNoteService.selectNote(this.selectedNote());
     }
   }
 
@@ -109,18 +110,14 @@ export class StaveComponent {
 
   deleteNote() {
     let updates = this.changePitchService.deleteNote(this.selectedNote(), this.voice);
-    this.updateVoice(updates.voice);
+    // this.updateVoice(updates.voice);
   }
 
   raisePitch() {
-    let updates = this.changePitchService.raisePitch(this.selectedNote(), this.voice);
-    this.voiceService.setVoice(updates.voice);
-    this.selectNoteService.selectNote(this.selectedNoteIndex);
-  }
+    this.changePitchService.raisePitch();
+  };
 
   lowerPitch() {
-    let updates = this.changePitchService.lowerPitch(this.selectedNote(), this.voice);
-    this.voiceService.setVoice(updates.voice);
-    this.selectNoteService.selectNote(this.selectedNoteIndex);
-  }
+    this.changePitchService.lowerPitch();
+  };
 }

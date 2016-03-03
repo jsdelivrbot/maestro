@@ -4,29 +4,22 @@ import {RendererService} from './renderer.service';
 
 @Injectable()
 export class VoiceService {
-  selectedVoice: Rx.Subject<Vex.Flow.Voice> = new Rx.BehaviorSubject<Vex.Flow.Voice>(null);
+  voiceStream: Rx.Subject<Vex.Flow.Voice> = new Rx.BehaviorSubject<Vex.Flow.Voice>(null);
+  currentVoice: Vex.Flow.Voice;
 
   constructor(private _renderer: RendererService) {
-    // const voice = new Vex.Flow.Voice({
-    //   num_beats: 4,
-    //   beat_value: 4,
-    //   resolution: Vex.Flow.RESOLUTIO
-    // });
-    //
-    // const notes = [
-    //     new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
-    //     new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
-    //     new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" }),
-    //     new Vex.Flow.StaveNote({ keys: ["b/4"], duration: "q" })
-    // ];
-    // voice.addTickables(notes)
-    // this.setVoice(voice);
+    this.voiceStream.subscribe((voice) =>
+      this.updateVoice(voice);
+    )
   };
 
   setVoice(voice: Vex.Flow.Voice) {
-    this.selectedVoice.next(voice);
+    this.voiceStream.next(voice);
+  };
+
+  private updateVoice(voice: Vex.Flow.Voice) {
+    this.currentVoice = voice;
     if (this._renderer.stave) {
-      console.log(this._renderer);
       this._renderer.drawVoice(voice);
     }
   };
