@@ -7,19 +7,21 @@ import {VoiceService} from './voice.service';
 export class SelectNoteService {
   selectedNoteStream: Rx.Subject<Vex.Flow.StaveNote> = new Rx.BehaviorSubject<Vex.Flow.StaveNote>(null);
   selectedNote: Vex.Flow.StaveNote;
+  selectedNoteIndex: number;
 
   constructor(private _voice: VoiceService) {
+    this.selectedNoteIndex = 0;
     this.selectedNoteStream.subscribe((note) =>
       if (note) {
         this.updateNote(note);
       }
-    )
+    );
   };
 
   selectNote(note: Vex.Flow.StaveNote) {
     this.deselectNotes();
-    let index = _.indexOf(this._voice.currentVoice.getTickables(), note);
-    const note = this._voice.currentVoice.getTickables()[index];
+    this.selectedNoteIndex = _.indexOf(this._voice.currentVoice.getTickables(), note);
+    const note = this._voice.currentVoice.getTickables()[this.selectedNoteIndex];
     this.selectedNoteStream.next(note);
     this._voice.setVoice(this._voice.currentVoice);
   };
