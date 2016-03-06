@@ -39,7 +39,7 @@ var NotesControlComponent = (function () {
     };
     NotesControlComponent.prototype.resetSelectedNote = function () {
         this._addNotesService.deleteModifiers();
-        return this._voiceService.currentVoice.getTickables()[this._selectNoteService.selectedNoteIndex];
+        return this._selectNoteService.selectedNote;
     };
     NotesControlComponent = __decorate([
         core_1.Component({

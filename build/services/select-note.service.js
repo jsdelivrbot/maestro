@@ -34,8 +34,8 @@ var SelectNoteService = (function () {
     SelectNoteService.prototype.selectNote = function (note) {
         this.deselectNotes();
         this.selectedNoteIndex = _.indexOf(this._voice.currentVoice.getTickables(), note);
-        var note = this._voice.currentVoice.getTickables()[this.selectedNoteIndex];
-        this.selectedNoteStream.next(note);
+        var newNote = this._voice.currentVoice.getTickables()[this.selectedNoteIndex];
+        this.selectedNoteStream.next(newNote);
         this._voice.setVoice(this._voice.currentVoice);
     };
     ;

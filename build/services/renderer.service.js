@@ -14,7 +14,7 @@ var RendererService = (function () {
     };
     RendererService.prototype.drawVoice = function (voice) {
         var formatter = new Vex.Flow.Formatter().joinVoices([voice]).format([voice], 300);
-        this.drawStave(this.stave);
+        this.drawStave();
         voice.draw(this.context, this.stave);
     };
     RendererService.prototype.clearCanvas = function () {

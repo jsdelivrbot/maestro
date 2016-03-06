@@ -61,6 +61,6 @@ export class NotesControlComponent {
 
   private resetSelectedNote() : Vex.Flow.StaveNote {
     this._addNotesService.deleteModifiers()
-    return this._voiceService.currentVoice.getTickables()[this._selectNoteService.selectedNoteIndex]
+    return this._selectNoteService.selectedNote;
   }
 }

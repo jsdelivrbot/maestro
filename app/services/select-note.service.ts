@@ -19,7 +19,7 @@ export class SelectNoteService {
     this._voice.voiceStream.subscribe((voice) => {
       if (voice) {
         const note = voice.getTickables()[this.selectedNoteIndex];
-        this.updateNote(note);
+        this.updateNote(<Vex.Flow.StaveNote>note);
       }
    });
   };
@@ -27,8 +27,8 @@ export class SelectNoteService {
   selectNote(note: Vex.Flow.StaveNote) {
     this.deselectNotes();
     this.selectedNoteIndex = _.indexOf(this._voice.currentVoice.getTickables(), note);
-    const note = this._voice.currentVoice.getTickables()[this.selectedNoteIndex];
-    this.selectedNoteStream.next(note);
+    const newNote = this._voice.currentVoice.getTickables()[this.selectedNoteIndex];
+    this.selectedNoteStream.next(<Vex.Flow.StaveNote>newNote);
     this._voice.setVoice(this._voice.currentVoice);
   };
 
@@ -48,7 +48,7 @@ export class SelectNoteService {
   }
 
   private deselectNotes() {
-    _.map(this._voice.currentVoice.getTickables(), function(note) {
+    _.map(this._voice.currentVoice.getTickables(), function(note: Vex.Flow.StaveNote) {
       note.setStyle({strokeStyle: 'black', fillStyle: 'black'});
     });
   };

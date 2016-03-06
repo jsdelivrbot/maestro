@@ -3,7 +3,7 @@ export class RendererService {
   context: Vex.IRenderContext;
   stave: Vex.Flow.Stave;
 
-  setContext(canvas: HTMLScripElement, stave: Vex.Flow.Stave) {
+  setContext(canvas: HTMLScriptElement, stave: Vex.Flow.Stave) {
     this.canvas = canvas;
     this.stave = stave;
     const vfRenderer = new Vex.Flow.Renderer(this.canvas, 1);
@@ -17,7 +17,7 @@ export class RendererService {
 
   drawVoice(voice: Vex.Flow.Voice) {
     var formatter = new Vex.Flow.Formatter().joinVoices([voice]).format([voice], 300);
-    this.drawStave(this.stave);
+    this.drawStave();
     voice.draw(this.context, this.stave);
   }
 

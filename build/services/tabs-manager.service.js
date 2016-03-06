@@ -38,4 +38,5 @@ var TabsManagerService = (function () {
     return TabsManagerService;
 }());
 exports.TabsManagerService = TabsManagerService;
+;
 //# sourceMappingURL=tabs-manager.service.js.map

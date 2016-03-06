@@ -24,4 +24,4 @@ export class TabsManagerService {
       tab.deselect();
     });
   };
-}
+};
