@@ -26,6 +26,10 @@ export class SelectNoteService {
     this._voice.setVoice(this._voice.currentVoice);
   };
 
+  selectedIndex() {
+    return _.indexOf(this._voice.currentVoice.getTickables(), this.selectedNote);
+  }
+
   private updateNote(note: Vex.Flow.StaveNote) {
     this.selectedNote = note;
     this.highlightNote(note);

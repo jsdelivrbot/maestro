@@ -1,6 +1,10 @@
 import * as Vex from 'vexflow';
 import * as _ from 'lodash';
+import {VoiceService} from './voice.service';
+import {SelectNoteService} from './select-note.service';
+import {Injectable} from 'angular2/core';
 
+@Injectable()
 export class AddNotesService {
   static DURATION_MAP : { [key:string]:number; } = {
     'w': 1,
@@ -9,58 +13,64 @@ export class AddNotesService {
     '8': 0.125,
     '16': 0.0625,
     '32': 0.03125
-  }
+  };
+
+  constructor(
+    private _voiceService: VoiceService,
+    private _selectNoteService: SelectNoteService
+  ) {
+
+  };
 
   addNote(duration: string, index: number, voice: Vex.Flow.Voice) : Vex.Flow.Voice {
     let newNote = new Vex.Flow.StaveNote({keys: ['b/4'], duration: duration})
     let oldNote = <Vex.Flow.StaveNote>voice.getTickables()[index];
-    let notes = voice.getTickables(); 
+    let notes = voice.getTickables();
     if (this.isLonger(newNote, oldNote)) {
       return this.addLongerNote(newNote, oldNote, index, <Array<Vex.Flow.StaveNote>>notes);
     } else {
       return this.addShorterNotes(newNote, oldNote, index,  <Array<Vex.Flow.StaveNote>>notes);
     }
   };
-  
-  deleteModifiers(note: Vex.Flow.StaveNote, index: number, voice: Vex.Flow.Voice) : Vex.Flow.Voice {
-    const newNote = new Vex.Flow.StaveNote({keys: note.getKeys(), duration: note.getDuration()});
+
+  deleteModifiers() {
+    const newNote = new Vex.Flow.StaveNote({keys: this._selectNoteService.selectedNote.getKeys(), duration: this._selectNoteService.selectedNote.getDuration()});
     const newVoice = new Vex.Flow.Voice({num_beats: 4,beat_value: 4,resolution: Vex.Flow.RESOLUTION});
-    const notes = voice.getTickables();
-    notes[index] = newNote;
+    const notes = this._voiceService.currentVoice.getTickables();
+    notes[this._selectNoteService.selectedIndex()] = newNote;
     newVoice.addTickables(notes);
-    
-   return newVoice; 
-  }
-  
+    this._voiceService.setVoice(newVoice);
+  };
+
   private addShorterNotes(newNote: Vex.Flow.StaveNote, oldNote: Vex.Flow.StaveNote, index: number, notes: Array<Vex.Flow.StaveNote>) : Vex.Flow.Voice {
     const newNotesCount = this.divideNote(oldNote, newNote);
     const newNotes = this.createNotes(newNotesCount, newNote.getDuration())
     this.mergeTickables(notes, newNotes, index);
     const newVoice = new Vex.Flow.Voice({num_beats: 4, beat_value: 4, resolution: Vex.Flow.RESOLUTION});
     newVoice.addTickables(notes)
-    
+
     return newVoice;
   };
-  
+
   private addLongerNote(newNote: Vex.Flow.StaveNote, oldNote: Vex.Flow.StaveNote, index: number, notes: Array<Vex.Flow.StaveNote>) : Vex.Flow.Voice {
      const newNoteLength = this.divideNote(newNote, oldNote) + index;
      const newVoice = new Vex.Flow.Voice({num_beats: 4,beat_value: 4,resolution: Vex.Flow.RESOLUTION});
     if (this.noteWithinRange(notes, newNoteLength)) {
       notes = this.deleteNotes(notes, newNoteLength, index);
       notes[index] = newNote
-      newVoice.addTickables(notes); 
+      newVoice.addTickables(notes);
       return newVoice;
     } else {
       newVoice.addTickables(notes);
-    } 
-      
+    }
+
     return newVoice;
   };
-  
+
   private noteWithinRange(notes: Array<Vex.Flow.StaveNote>, newNoteLength: number) : boolean {
     return notes[newNoteLength - 1] !== undefined;
   };
-  
+
   private deleteNotes(notes: Array<Vex.Flow.StaveNote>, count: number, index: number) : Array<Vex.Flow.StaveNote> {
     for (let i of _.range(index + 1, count)) {
       notes[i] = null;
@@ -84,14 +94,14 @@ export class AddNotesService {
   private isLonger(newNote: Vex.Flow.StaveNote, oldNote: Vex.Flow.StaveNote) {
     return this.duration(newNote) > this.duration(oldNote)
   };
-  
+
   private divideNote(
     dividend: Vex.Flow.StaveNote,
     divisor: Vex.Flow.StaveNote
   ) : number {
     return this.duration(dividend) / this.duration(divisor);
   };
-  
+
   private createNotes(newNotesCount: number, duration: string) : Array<Vex.Flow.StaveNote> {
     const newNotes = new Array<Vex.Flow.StaveNote>();
     for (let i of _.range(0, newNotesCount)) {

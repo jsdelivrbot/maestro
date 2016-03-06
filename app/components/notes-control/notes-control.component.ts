@@ -24,13 +24,12 @@ export class NotesControlComponent {
   selectedNoteIndex: number;
   selectedNote: Vex.Flow.StaveNote;
   updateVoice: EventEmitter<Vex.Flow.Voice> = new EventEmitter();
-  addNotesService: AddNotesService;
 
-  constructor(addNotesService: AddNotesService,
+  constructor(
+    private _addNotesService: AddNotesService,
     private _voiceService: VoiceService,
     private _selectNoteService: SelectNoteService
     ) {
-    this.addNotesService = addNotesService;
     this.durations = ['w', 'h', 'q', '8', '16', '32'];
     this.selectedDuration = this.durations[0];
   }
@@ -40,27 +39,31 @@ export class NotesControlComponent {
   }
 
   addNote() {
-    const newVoice = this.addNotesService.addNote(
+    const newVoice = this._addNotesService.addNote(
       this.selectedDuration,
       this._selectNoteService.selectedNoteIndex,
       this._voiceService.currentVoice
     );
 
     this._voiceService.setVoice(newVoice);
+    const note = this._voiceService.currentVoice.getTickables()[this._selectNoteService.selectedNoteIndex]
+    this._selectNoteService.selectNote(note);
   }
 
   addSharp() {
-    this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('#'));
-    this.updateVoice.emit(this.voice);
+    const note = this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('#'));
+    this._voiceService.setVoice(this._voiceService.currentVoice);
+    this._selectNoteService.selectNote(note);
   }
 
   addFlat() {
-    this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('b'));
-    this.updateVoice.emit(this.voice);
+    const note = this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('b'));
+    this._voiceService.setVoice(this._voiceService.currentVoice);
+    this._selectNoteService.selectNote(note);
   }
 
   private resetSelectedNote() : Vex.Flow.StaveNote {
-    this.updateVoice.emit(this.addNotesService.deleteModifiers(this.selectedNote, this.selectedNoteIndex, this.voice));
-    return this.voice.getTickables()[this.selectedNoteIndex];
+    this._addNotesService.deleteModifiers()
+    return this._voiceService.currentVoice.getTickables()[this._selectNoteService.selectedNoteIndex]
   }
 }
