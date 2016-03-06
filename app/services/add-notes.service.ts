@@ -18,9 +18,7 @@ export class AddNotesService {
   constructor(
     private _voiceService: VoiceService,
     private _selectNoteService: SelectNoteService
-  ) {
-
-  };
+  ) {};
 
   addNote(duration: string, index: number, voice: Vex.Flow.Voice) : Vex.Flow.Voice {
     let newNote = new Vex.Flow.StaveNote({keys: ['b/4'], duration: duration})

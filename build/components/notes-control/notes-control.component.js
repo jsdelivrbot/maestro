@@ -10,10 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('angular2/core');
 var add_notes_service_1 = require('../../services/add-notes.service');
+var voice_service_1 = require('../../services/voice.service');
+var select_note_service_1 = require('../../services/select-note.service');
 var NotesControlComponent = (function () {
-    function NotesControlComponent(addNotesService) {
+    function NotesControlComponent(_addNotesService, _voiceService, _selectNoteService) {
+        this._addNotesService = _addNotesService;
+        this._voiceService = _voiceService;
+        this._selectNoteService = _selectNoteService;
         this.updateVoice = new core_1.EventEmitter();
-        this.addNotesService = addNotesService;
         this.durations = ['w', 'h', 'q', '8', '16', '32'];
         this.selectedDuration = this.durations[0];
     }
@@ -21,8 +25,21 @@ var NotesControlComponent = (function () {
         this.selectedDuration = event.target.value;
     };
     NotesControlComponent.prototype.addNote = function () {
-        var newVoice = this.addNotesService.addNote(this.selectedDuration, this.selectedNoteIndex, this.voice);
-        this.updateVoice.emit(newVoice);
+        var newVoice = this._addNotesService.addNote(this.selectedDuration, this._selectNoteService.selectedNoteIndex, this._voiceService.currentVoice);
+        this._voiceService.setVoice(newVoice);
+        this._selectNoteService.selectNote(this._selectNoteService.selectedNote);
+    };
+    NotesControlComponent.prototype.addSharp = function () {
+        this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('#'));
+        this._voiceService.setVoice(this._voiceService.currentVoice);
+    };
+    NotesControlComponent.prototype.addFlat = function () {
+        this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('b'));
+        this._voiceService.setVoice(this._voiceService.currentVoice);
+    };
+    NotesControlComponent.prototype.resetSelectedNote = function () {
+        this._addNotesService.deleteModifiers();
+        return this._voiceService.currentVoice.getTickables()[this._selectNoteService.selectedNoteIndex];
     };
     NotesControlComponent = __decorate([
         core_1.Component({
@@ -38,7 +55,7 @@ var NotesControlComponent = (function () {
         core_1.View({
             templateUrl: 'app/components/notes-control/notes-control.template.html'
         }), 
-        __metadata('design:paramtypes', [add_notes_service_1.AddNotesService])
+        __metadata('design:paramtypes', [add_notes_service_1.AddNotesService, voice_service_1.VoiceService, select_note_service_1.SelectNoteService])
     ], NotesControlComponent);
     return NotesControlComponent;
 }());

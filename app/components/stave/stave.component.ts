@@ -32,24 +32,16 @@ export class StaveComponent {
 
   stave: Vex.Flow.Stave;
   canvasSelector: string;
-  renderer: RendererService;
-  changePitchService: ChangePitchService;
   voice: Vex.Flow.Voice;
   selectedNoteIndex: number;
-  addNotesService: AddNotesService;
 
   constructor(
-    changePitchService: ChangePitchService,
-    addNotesService: AddNotesService,
-    selectNoteService: SelectNoteService,
-    renderer: RendererService,
-    voiceService: VoiceService
+    private changePitchService: ChangePitchService,
+    private addNotesService: AddNotesService,
+    private selectNoteService: SelectNoteService,
+    private renderer: RendererService,
+    private voiceService: VoiceService
   ) {
-    this.changePitchService = changePitchService;
-    this.addNotesService = addNotesService;
-    this.selectNoteService = selectNoteService;
-    this.renderer = renderer;
-    this.voiceService = voiceService;
     this.selectedNoteIndex = 0;
   };
 

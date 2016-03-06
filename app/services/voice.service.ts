@@ -9,9 +9,9 @@ export class VoiceService {
   currentVoice: Vex.Flow.Voice;
 
   constructor(private _renderer: RendererService) {
-    this.voiceStream.subscribe((voice) =>
+    this.voiceStream.subscribe((voice) => {
       this.updateVoice(voice);
-    )
+    });
   };
 
   setVoice(voice: Vex.Flow.Voice) {
