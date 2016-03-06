@@ -46,20 +46,17 @@ export class NotesControlComponent {
     );
 
     this._voiceService.setVoice(newVoice);
-    const note = this._voiceService.currentVoice.getTickables()[this._selectNoteService.selectedNoteIndex]
-    this._selectNoteService.selectNote(note);
+    this._selectNoteService.selectNote(this._selectNoteService.selectedNote);
   }
 
   addSharp() {
-    const note = this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('#'));
+    this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('#'));
     this._voiceService.setVoice(this._voiceService.currentVoice);
-    this._selectNoteService.selectNote(note);
   }
 
   addFlat() {
-    const note = this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('b'));
+    this.resetSelectedNote().addAccidental(0, new Vex.Flow.Accidental('b'));
     this._voiceService.setVoice(this._voiceService.currentVoice);
-    this._selectNoteService.selectNote(note);
   }
 
   private resetSelectedNote() : Vex.Flow.StaveNote {

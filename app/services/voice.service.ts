@@ -1,6 +1,7 @@
 import * as Rx from 'rxjs/Rx';
 import {Injectable} from 'angular2/core';
 import {RendererService} from './renderer.service';
+import {SelectNoteService} from './select-note.service';
 
 @Injectable()
 export class VoiceService {
@@ -23,4 +24,4 @@ export class VoiceService {
       this._renderer.drawVoice(voice);
     }
   };
-}
+};

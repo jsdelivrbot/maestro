@@ -16,6 +16,12 @@ export class SelectNoteService {
         this.updateNote(note);
       }
     );
+    this._voice.voiceStream.subscribe((voice) =>
+     if (voice) {
+       const note = voice.getTickables()[this.selectedNoteIndex];
+       this.updateNote(note);
+     }
+    )
   };
 
   selectNote(note: Vex.Flow.StaveNote) {
@@ -37,6 +43,7 @@ export class SelectNoteService {
 
   private highlightNote(note: Vex.Flow.StaveNote) {
     if (note) {
+      console.log('in highlight >>>>', note);
       note.setStyle({strokeStyle: 'blue', fillStyle: 'blue'});
     }
   }
